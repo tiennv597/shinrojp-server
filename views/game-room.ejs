@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Chat App</title>
-  <script src="jquery.js"></script>  
+  <title>Rooms Game</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="http://localhost:3000/socket.io/socket.io.js"></script>
   <link rel="stylesheet" type="text/css" href="layout-room.css">
   <script>
@@ -17,7 +17,7 @@
     $('#listRooms').html("");
       data.map(function(room){          
           $('#listRooms').append( 
-            "<a class='linkRoom' href=/room/"+ room +">"+room+"</a></br>"            
+            "<a class='linkRoom' href=/game/api/rooms/"+ room +">"+room+"</a></br>"            
             );
       });
   });
@@ -33,7 +33,6 @@
     });  
   });
   </script>
-
 </head>
 <body> 
   <header id="header">

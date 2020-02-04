@@ -865,41 +865,78 @@
                                             </div>
                                             <!-- Modal body -->
                                             <div class="modal-body">
-                                                <div class="col-md-12">
-                                                    <form role="form" action="/add-product" method="POST">
-                                                        <select class="form-control" id="productSelect">
-                                                            <option>Please Select a Product Group</option>
-                                                            <option>Bar Soaps</option>
-                                                            <option>Lotions</option>
-                                                            <option>Creams</option>
+                                                <div class="col-md-24">
+                                                    <form role="form" action="/add-question" method="POST">
+                                                        <!-- Shoose type -->
+                                                        <select class="form-control"  name="type">
+                                                            <option name="goi" value="goi">語彙</option>
+                                                            <option name="kanji" value="kanji">漢字</option>
+                                                            <option name="bunpou" value="bunpou">文法</option>
                                                         </select>
+                                                        <!-- Shoose level -->
+                                                        <select class="form-control"  name="level">
+                                                            <option name="n5" value="n5">N5</option>
+                                                            <option name="n5" value="n4">N4</option>
+                                                            <option name="n5" value="n3">N3</option>
+                                                            <option name="n5" value="n2">N2</option>
+                                                            <option name="n5" value="n1">N1</option>
+                                                        </select>
+                                                        <!-- Input Question -->
                                                         <div class="form-group">
-                                                            <label for="productname" class="loginFormElement">Name
-                                                                Product</label>
-                                                            <input class="form-control" name="productname"
-                                                                id="productname" type="text">
+                                                            <label for="questionname" class="loginFormElement">Question</label>
+                                                                <div class="input-group mb-3">
+                                                                <input class="form-control"  name="question"
+                                                                    id="question" type="text">
+                                                                </div>                                                                
                                                         </div>
-
-                                                        <div class="form-group">
-                                                            <label for="productprice" class="loginFormElement">Product
-                                                                Price</label>
-                                                            <input class="form-control" name="productprice"
-                                                                id="productprice" type="number">
+                                                       <!-- Input Answer 1 -->
+                                                       <div class="form-group">
+                                                        <label for="productname" class="loginFormElement">Answer option1</label>
+                                                            <div class="input-group mb-3">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text"><input class="checkbox-tick" type="radio" value="1" name="result"></i></span>
+                                                                </div>
+                                                            <input class="form-control"  name="answerone" id="answerone" type="text">
+                                                            </div>                                                                
                                                         </div>
-
-
-                                                        <div class="form-group">
-
-                                                            <label class="control-label">Product Image</label>
-
-                                                            <input class="filestyle" type="file">
-
+                                                        <!-- Input Answer 2 -->
+                                                       <div class="form-group">
+                                                        <label for="productname" class="loginFormElement">Answer option2</label>
+                                                            <div class="input-group mb-3">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text"><input class="checkbox-tick" type="radio" value="2" name="result"></i></span>
+                                                                </div>
+                                                            <input class="form-control"  name="answertwo"
+                                                                id="answertwo" type="text">
+                                                            </div>                                                                
                                                         </div>
-
+                                                        <!-- Input Answer 3 -->
+                                                       <div class="form-group">
+                                                        <label for="productname" class="loginFormElement">Answer option3</label>
+                                                            <div class="input-group mb-3">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text"><input class="checkbox-tick" type="radio" value="3" name="result"></i></span>
+                                                                </div>
+                                                            <input class="form-control"  name="answerthree"
+                                                                id="answerthree" type="text">
+                                                            </div>                                                                
+                                                        </div>
+                                                        <!-- Input Answer 4 -->
+                                                       <div class="form-group">
+                                                        <label for="productname" class="loginFormElement">Answer option4</label>
+                                                            <div class="input-group mb-3">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text"><input class="checkbox-tick" type="radio" value="4" name="result"></i></span>
+                                                                </div>
+                                                            <input class="form-control"  name="answerfour"
+                                                                id="answerfour" type="text">
+                                                            </div>                                                                
+                                                        </div>
+                                                        <!-- Comment -->
                                                         <div class="form-group">
                                                             <label class="loginformelement"
-                                                                for="productdescription">Product Description</label>
-                                                            <input id="productdescription" name="productdescription"
+                                                                for="productdescription">Comment</label>
+                                                            <input id="answercomment" name="answercomment"
                                                                 class="form-control input-lg" placeholder="Large"
                                                                 type="text">
                                                             <div class="container">
@@ -931,142 +968,9 @@
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
+                                        <!-- tbody start -->
                                         <tbody>
-                                            <% products.forEach(function(product) { %>
-                                            <tr class="gradeA">
-                                                <td><%= product.name %></td>
-                                                <td><%= product.price %></td>
-                                                <td><%= product.decription %></td>
-                                                <td class="actions">
-                                                    <!-- <button
-                                                                    class="btn btn-sm btn-icon btn-pure btn-default on-editing m-r-5 button-save"
-                                                                    data-toggle="tooltip" data-original-title="Save" hidden><i
-                                                                        class="icon-drawer" aria-hidden="true"></i></button>
-                                                                <button
-                                                                    class="btn btn-sm btn-icon btn-pure btn-default on-editing button-discard"
-                                                                    data-toggle="tooltip" data-original-title="Discard" hidden><i
-                                                                        class="icon-close" aria-hidden="true"></i></button> -->
-                                                    <button
-                                                        class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 "
-                                                        data-toggle="modal" data-target="#<%= product._id %>"
-                                                        data-original-title="Edit"><i class="icon-pencil"
-                                                            aria-hidden="true"></i></button>
-                                                    <button
-                                                        class="btn btn-sm btn-icon btn-pure btn-default on-default"
-                                                        data-target="#del<%=product._id %>"
-                                                        data-toggle="modal" data-original-title="Remove"><i
-                                                            class="icon-trash" aria-hidden="true"></i></button>
-                                                </td>
-                                            </tr>
-                                            <!-- The Modal Edit start -->
-                                            <div class="modal dialog" id="<%= product._id %>">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
 
-                                                        <!-- Modal Header -->
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title">Add Product</h4>
-                                                            <button type="button" class="close"
-                                                                data-dismiss="modal">&times;</button>
-                                                        </div>
-                                                        <!-- Modal body -->
-                                                        <div class="modal-body">
-                                                            <div class="col-md-12">
-                                                                <form role="form" action="/edit-product" method="POST">
-                                                                    <select class="form-control" id="productSelect">
-                                                                        <option>Please Select a Product Group
-                                                                        </option>
-                                                                        <option>Bar Soaps</option>
-                                                                        <option>Lotions</option>
-                                                                        <option>Creams</option>
-                                                                    </select>
-                                                                    <input class="form-control" hidden="true"
-                                                                        value="<%= product._id %>" name="productid"
-                                                                        id="productid" type="text">
-                                                                    <div class="form-group">
-                                                                        <label for="productname"
-                                                                            class="loginFormElement">Name
-                                                                            Product</label>
-                                                                        <input class="form-control"
-                                                                            value="<%= product.name %>"
-                                                                            name="productname" id="productname"
-                                                                            type="text">
-                                                                    </div>
-
-                                                                    <div class="form-group">
-                                                                        <label for="productprice"
-                                                                            class="loginFormElement">Product
-                                                                            Price</label>
-                                                                        <input class="form-control" name="productprice"
-                                                                            value="<%= product.price %>"
-                                                                            id="productprice" type="number">
-                                                                    </div>
-
-
-                                                                    <div class="form-group">
-
-                                                                        <label class="control-label">Product
-                                                                            Image</label>
-
-                                                                        <input class="filestyle" type="file">
-
-                                                                    </div>
-
-                                                                    <div class="form-group">
-                                                                        <label class="loginformelement"
-                                                                            for="productdescription">Product
-                                                                            Description</label>
-                                                                        <input id="productdescription"
-                                                                            name="productdescription"
-                                                                            class="form-control input-lg"
-                                                                            value="<%= product.decription %>"
-                                                                            placeholder="Large" type="text">
-
-                                                                        <div class="container">
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <!-- Modal footer -->
-                                                                    <div class="modal-footer">
-                                                                        <button type="submit" id="loginSubmit"
-                                                                            class="btn btn-success loginFormElement">Edit
-                                                                            Product</button>
-                                                                        <button type="button" class="btn btn-danger"
-                                                                            data-dismiss="modal">Close</button>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- The Modal Edit end -->
-                                            <!-- The Modal Remove start -->
-                                            <div id="del<%=product._id %>" class="modal modal-dangerdialog" style="display: none;" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">Remove Product</h5>
-                                                        </div>
-                                                        <h4 class="modal-title modal-body">You'vd remove product?</h4>                                                        
-                                                        <div class="modal-body">Name: <%= product.name %></div>
-                                                        <div class="modal-body">Prire: <%= product.price %></div>
-                                                        <div class="modal-body">Decription: <%= product.decription %></div>
-                                                        <div class="modal-footer">
-                                                                <form role="form" action="/remove-product" method="POST">
-                                                                    <input class="form-control" hidden="true"
-                                                                        value="<%= product._id %>" name="remproductid"
-                                                                        id="remproductid" type="text">
-                                                            <button type="button" class="btn btn-success" data-dismiss="modal">Cancer</button>
-                                                            <button type="submit" class="btn btn-danger">OK</button>
-                                                                </form>
-                                                        </div>
-                                                    </div> <!-- / .modal-content -->
-                                                </div> <!-- / .modal-dialog -->
-                                            </div>
-                                            <!-- The Modal Remove end -->
-                                            <% }); %>
-                                        </tbody>
                                         <tfoot>
                                             <tr>
                                                 <th>Name</th>

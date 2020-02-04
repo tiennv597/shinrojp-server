@@ -3,15 +3,15 @@ var router = express.Router();
 var gameController = require('../controllers/game-controller');
 var roomController = require('../controllers/room-controller');
 // get game index
-router.get('/game-index', (req, res) => {
-    res.render('game-index', { title: 'Express' });
-  });  
+// router.get('/game-index', (req, res) => {
+//     res.render('game-index', { title: 'Express' });
+//   });  
 //get room index
-router.get('/room', function (req, res) { 
+router.get('/game/api/rooms', function (req, res) { 
   res.render('game-room', { title: 'Express' });
 });
 // join room
-router.get('/room/:room', (req, res) => {
+router.get('/game/api/rooms/:room', (req, res) => {
   res.render('game-ingame', { roomName: req.params.room });
 });
 module.exports = router;

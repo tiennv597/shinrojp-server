@@ -4,7 +4,7 @@ const app = express();
 var path = require('path');
 var mongoose = require('mongoose');
 const adminRoutes = require('./app/admin/routes/admin');
-const productRoutes = require('./app/admin/routes/product');
+const questionRoutes = require('./app/admin/routes/question');
 const gameRoutes = require('./app/game/routes/game-routes');
 var port = process.env.PORT || 3000;
 const io = require('socket.io').listen(app.listen(port));
@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true }))
 //connect mongoDB
 //Import the mongoose module
 //Set up default mongoose connection
-var mongoDB = 'mongodb://127.0.0.1/productmanage';
+var mongoDB = 'mongodb://127.0.0.1/shinrojp';
 mongoose.connect(mongoDB,{ useNewUrlParser: true, useUnifiedTopology: true })
 .then(()=> console.log('Database Connection Successful!!'))
 .catch(err => console.error(err));
@@ -33,7 +33,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 app.set('socketio', io);
 //router
 app.use(adminRoutes);
-app.use(productRoutes);
+app.use(questionRoutes);
 app.use(gameRoutes);
 
 //
