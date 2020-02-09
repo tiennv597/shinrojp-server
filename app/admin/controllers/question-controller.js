@@ -1,6 +1,5 @@
 var Question = require('../models/question');
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
 //get all product
 module.exports.getQuestionPage = function (req, res, next) {
     // Question.find({}, function (err, products) {
@@ -15,29 +14,48 @@ module.exports.getQuestionPage = function (req, res, next) {
 //     });
 // };
 // insert product
-module.exports.insertQuestion = function (req, res, next) {
-    console.log(req.body.result);
+module.exports.insertQuestion = function (req, res, next) {    
     //Create an instance of model SomeModel
-    // var awesome_instance =  new Question(
-    //     { 
-    //         type :req.body.type,
-    //         level:req.body.level,  
-    //         question: req.body.question,
-    //         answers : [{answer: req.body.answerone,    result: true},
-    //                    {answer: req.body.answertwo,    result: false},
-    //                    {answer: req.body.answerthree,  result: false},
-    //                    {answer: req.body.answerfour,   result: false}
-    //                 ],
-    //         comment : req.body.answercomment,
-    //     }
-    //   );
+    var awesome_instance =  new Question(
+        { 
+            type :req.body.type,
+            level:req.body.level,  
+            question: req.body.question,
+            answers : [{answer: req.body.answerone,    result: false},
+                       {answer: req.body.answertwo,    result: false},
+                       {answer: req.body.answerthree,  result: false},
+                       {answer: req.body.answerfour,   result: false}
+                    ],
+            comment : req.body.answercomment,
+        }
+      ); 
+      switch (req.body.result){
+        case '1' : {
+            awesome_instance.answers[0].result=true;
+              break;
+          }
+        case '2' : {  
+            awesome_instance.answers[1].result=true;
+              break;
+          }
+        case '3' : {
+            awesome_instance.answers[2].result=true;
+            break;
+        }
+        case '4': {
+            awesome_instance.answers[3].result=true;
+            break;
+        }
+          default : {
+            
+          }
+      }
+      
     // Save the new model instance, passing a callback
-    // awesome_instance.collection=req.body.question;
-    // awesome_instance.save(function (err, question) {
-    //     if (err) return console.error(err);
-    //     console.log(question.question + " saved to bookstore collection.");
-    //   });
-    //  console.log(awesome_instance);
+    awesome_instance.save(function (err, question) {
+        if (err) return console.error(err);
+        console.log(question.question + " saved to  collection.");
+      });
 };
 // edit product
 // module.exports.editProduct = function (req, res, next) {

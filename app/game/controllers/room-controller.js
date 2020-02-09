@@ -1,4 +1,3 @@
-
 module.exports = function (app,io,socket,listRoom) {  
   socket.on('creat-room',function(data){
     if(data==null){

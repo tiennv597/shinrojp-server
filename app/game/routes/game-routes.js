@@ -2,10 +2,6 @@ var express = require('express');
 var router = express.Router();
 var gameController = require('../controllers/game-controller');
 var roomController = require('../controllers/room-controller');
-// get game index
-// router.get('/game-index', (req, res) => {
-//     res.render('game-index', { title: 'Express' });
-//   });  
 //get room index
 router.get('/game/api/rooms', function (req, res) { 
   res.render('game-room', { title: 'Express' });
