@@ -1,4 +1,7 @@
-module.exports = function (app,io,socket,listRoom) {  
+module.exports = function (app,io,socket,listRoom) { 
+  socket.on("get-rooms",function(data){
+      socket.emit('server-send-rooms',data);
+  });
   socket.on('creat-room',function(data){
     if(data==null){
       socket.emit('server-send-rooms',listRoom);
@@ -7,7 +10,6 @@ module.exports = function (app,io,socket,listRoom) {
       socket.join(data);
       socket.gameRoom=data;
       listRoom.push(data);      
-      socket.emit('server-send-rooms',listRoom);
       socket.emit("server-send-room-socket",data)
       console.log(socket.adapter.rooms);
     }
@@ -16,4 +18,8 @@ module.exports = function (app,io,socket,listRoom) {
     io.sockets.in(socket.gameRoom).emit("server-chat",data);
     console.log(data);
     });
+    //test
+    socket.on("hello",function(data){     
+      console.log(data);
+      });
 }
