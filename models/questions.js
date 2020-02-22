@@ -6,23 +6,22 @@ function Questions(){
 	return {
 
 		addQuestions : function (data, cb){
-
 			var compatibleID=uuid.v4();	
 			var questions={
-					provider:data.userName,
+					provider:data.provider,
 					id:compatibleID,
-					type : data.questionType,
-  					level: data.questionLevel,
-  					content: data.questionContent,
+					type : data.type,
+  					level: data.level,
+  					content: data.content,
 					answers : [
-						{answer: req.body.answerone,    result: false},
-						{answer: req.body.answertwo,    result: false},
-						{answer: req.body.answerthree,  result: false},
-						{answer: req.body.answerfour,   result: false}
+						{answer: data.answerone,    result: false},
+						{answer: data.answertwo,    result: false},
+						{answer: data.answerthree,  result: false},
+						{answer: data.answerfour,   result: false}
 					 ],
-  					comment: data.Comment
+  					comment: data.comment
 			};
-			switch (req.body.result){
+			switch (data.result){
 				case '1' : {
 					questions.answers[0].result=true;
 					  break;
