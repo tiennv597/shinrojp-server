@@ -1,89 +1,107 @@
-//"start": "nodemon --inspect app.js" debug
-const express = require('express');
-const app = express();
+var express = require('express');
+var session = require('express-session');
 var path = require('path');
-var mongoose = require('mongoose');
-const passport = require('passport');
-const authRoutes = require('./routes/routes');
-const FacebookStrategy  = require('passport-facebook').Strategy;
-const session  = require('express-session');
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
-const config = require('./config/fbconfig');
-const adminRoutes = require('./app/admin/routes/admin');
-const questionRoutes = require('./app/admin/routes/question');
-const gameRoutes = require('./app/game/routes/game-routes');
-//user
-var User = require('./model/user');
-var port = process.env.PORT || 3000;
-const io = require('socket.io').listen(app.listen(port));
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var db = require("./config.js").db;
+var i18n = require("i18n-express");
+var geolang = require("geolang-express");
+var passport = require('passport');
+var helmet = require('helmet');
+var userModel = require("./models/users.js")();
+var flash = require('connect-flash');
 
-// Passport session setup. 
-passport.serializeUser(function(user, done) {
-    done(null, user);
-  });
-passport.deserializeUser(function(obj, done) {
-    done(null, obj);
-  });
-  // Using FacebookStrategy with Passport.
-passport.use(new FacebookStrategy({
-    clientID: config.facebook_api_key,
-    clientSecret:config.facebook_api_secret ,
-    callbackURL: config.callback_url,
-    profileFields:["email","gender","locale","displayName"]
-  },
-  function(accessToken, refreshToken, profile, done) {
-    process.nextTick(function () {
-      console.log(accessToken, refreshToken, profile, done);
-      User.findOne({id:profile._json.id},function(err,user){
-        if(err) return done(err);
-        if(user) return done(user);
-        const newUser=new User({
-          id:profile._json.id,
-          name:profile._json.name,
-          email:profile._json.email
-        }
-        );
-        newUser.save((err)=>{
-          return done(null,newUser);
-        });
-      });
-      return done(null, profile);
-    });
-  }
-));
+var indexRoutes = require('./routes/index');
+var myAccountRoutes = require('./routes/myaccount');
 
+var app = express();
+
+app.use(function(req,res,next){
+    req.db = db;
+    next();
+});
+module.exports.db=db;
+
+userModel.initializePassport(passport);
+
+// view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs'); //Using view ejs
-app.use(cookieParser()); //Parse cookie
-app.use(bodyParser.urlencoded({ extended: false })); //Parse body to get data
-app.use(session({ secret: 'keyboard cat', key: 'sid'}));  //Save user login
+app.set('view engine', 'ejs');
+
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(flash());
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+  secret: require("./config.js").sessionSecret,
+  saveUninitialized: true,
+  resave: true
+}));
+
+app.use(geolang({
+  siteLangs: ['en','vi']
+}));
+
+app.use(i18n({
+  translationsPath: path.join(__dirname, 'i18n'),
+  siteLangs: ["en","vi"]
+}));
+
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static('./views/'));
-app.use(express.static('./public/'));
-app.use(express.urlencoded({ extended: true }))
-//
-//connect mongoDB
-//Import the mongoose module
-//Set up default mongoose connection
-var mongoDB = 'mongodb://127.0.0.1/shinrojp';
-mongoose.connect(mongoDB,{ useNewUrlParser: true, useUnifiedTopology: true })
-.then(()=> console.log('Database Connection Successful!!'))
-.catch(err => console.error(err));
 
-//Get the default connection
-var db = mongoose.connection;
+//TODO: tune
+app.use(helmet());
 
-//Bind connection to error event (to get notification of connection errors)
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-app.set('socketio', io);
-//router
-app.use(adminRoutes);
-app.use(questionRoutes);
-app.use(gameRoutes);
-app.use(authRoutes);
+//default locals
+app.use(function(req, res, next) {
+  req.app.locals.registerEnabled=registerEnabled = require("./config.js").registerEnabled;
+  req.app.locals.facebookLoginEnabled=require("./config.js").facebookLoginEnabled;
+  req.app.locals.localLoginEnabled=require("./config.js").localLoginEnabled;
+  req.app.locals.loggedUser = req.user;
+  next();
+});
 
-//
-require('./config/socketio')(app, io);
-console.log('Your application is running on http://localhost:' + port);
+app.use('/', indexRoutes);
+app.use('/', myAccountRoutes);
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
+
+// error handlers
+var dev = process.env.NODE_ENV !== 'production';
+
+// development error handler
+// will print stacktrace
+if (dev) {
+  app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+      message: err.message,
+      error: err
+    });
+  });
+}
+
+// production error handler
+// no stacktraces leaked to user
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+  res.render('error', {
+    message: err.message,
+    error: {}
+  });
+});
+
+
+module.exports = app;
