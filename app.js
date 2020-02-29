@@ -14,10 +14,12 @@ var userModel = require("./models/users.js")();
 var flash = require('connect-flash');
 //routes
 var indexRoutes = require('./routes/index');
+var gameRoutes = require('./routes/game-routes');
 var myAccountRoutes = require('./routes/myaccount');
 var questionsRoutes = require('./routes/questions');
 
 var app = express();
+
 
 app.use(function(req,res,next){
     req.db = db;
@@ -69,9 +71,11 @@ app.use(function(req, res, next) {
   next();
 });
 
+//set router
 app.use('/', indexRoutes);
 app.use('/', myAccountRoutes);
 app.use('/', questionsRoutes);
+app.use('/', gameRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -79,7 +83,6 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
-
 // error handlers
 var dev = process.env.NODE_ENV !== 'production';
 
@@ -94,7 +97,6 @@ if (dev) {
     });
   });
 }
-
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
@@ -104,6 +106,4 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
-
 module.exports = app;

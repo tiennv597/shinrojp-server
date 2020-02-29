@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Rooms Game</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+  <link rel="stylesheet" type="text/css" href="layout-room.css">
+  <script>
+    var socket = io('/game-namespace');
+  // tải hết html rồi mới tải script
+  $(document).ready(function(){
+    socket.emit('creat-room',null);
+    socket.on('server-send-rooms', function(data){
+    $('#listRooms').html("");
+      data.map(function(room){          
+          $('#listRooms').append( 
+            "<a class='linkRoom' href=/game/api/rooms/"+ room +">"+room+"</a></br>"            
+            );
+      });
+  });
+  // creat room
+    $("#btnCreatRoom").click(function(){
+  var nameRoom = prompt("Please enter your name:", "Name Room");
+  if (nameRoom == null || nameRoom == "") {
+      alert("Please enter a room name!");
+  } else {
+    socket.emit('creat-room',nameRoom);
+  }
+  document.getElementById("demo").innerHTML = txt;
+    });  
+  });
+  </script>
+</head>
+<body> 
+  <% include navbar.ejs %>
+  <header id="header">
+    <input type="button" id="btnCreatRoom" value="CreatRoom" />
+    <input type="button" id="btnJoinRoom" value="JoinRoom" />
+    <input type="button" id="btnJoinQuickly" value="JoinQuickly" />
+  </header> 
+    <div>
+      <h4 id="present-room">...</h4>
+      <div id="listRooms"></div>
+    </div>    
+</body>
+</html>
