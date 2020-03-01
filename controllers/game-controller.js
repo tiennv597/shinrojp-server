@@ -4,10 +4,14 @@ module.exports = function (io,socket,listRoom) {
     nsp.to(room).emit("server-send-scores", message);
     console.log(room+message);    
   });
-  socket.on("join-room",function(data){
-     socket.join(data);
-     console.log(data);
-     nsp.to(data).emit("joined-room","add 1");
-     console.log(socket.adapter.rooms);      
+  socket.on('client-send-message', (room,displayName, message) => {
+    nsp.to(room).emit("server-send-message", displayName,message);
+    console.log(room+displayName+message);    
+  });
+  socket.on("join-room",function(roomName,displayName){
+     socket.join(roomName);
+     console.log(roomName);
+     nsp.to(roomName).emit("joined-room",displayName);
+     console.log(displayName);      
   });
 }

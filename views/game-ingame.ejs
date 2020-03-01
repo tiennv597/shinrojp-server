@@ -10,28 +10,29 @@
   <link rel="stylesheet" type="text/html" href="layout-ingame.css">
   <script>
     const roomName = "<%= roomName %>"    
+    const displayName ="<%=loggedUser.displayName%>"    
   </script>
   <script>
     var socket = io('/game-namespace');
   // tải hết html rồi mới tải script
   $(document).ready(function(){
-    socket.emit('join-room',roomName);
+    socket.emit('join-room',roomName,displayName);
     //user joined
-    socket.on("joined-room",function(data){
-      $('#message-container').append("<p>"+data+"</p>");
+    socket.on("joined-room",function(displayName){
+      $('#message-container').append("<p>"+displayName+" joined"+"</p>");
     });
     //send function
     $("#btnSend").click(function(){
       const message = $("#message-input").val();
       //alert(message);
     //appendMessage(`You: ${message}`)
-      socket.emit('client-send-scores', roomName, $("#message-input").val());
+      socket.emit('client-send-message', roomName,displayName, $("#message-input").val());
       $("#message-input").val("");
     });  
     //
-    socket.on("server-send-scores", function(data){
+    socket.on("server-send-message", function(displayName,message){
       //$('#message-container').append(data.message);
-      $('#message-container').append("<p>"+data+"</p>");
+      $('#message-container').append("<p>"+displayName+": "+message+"</p>");
     });
   });
   </script>
@@ -74,6 +75,7 @@
 </style>
 </head>
 <body>
+  <% include navbar.ejs %>
 <div id="message-container"></div>
 <div id="send-container">
   <input type="text" id="message-input">
