@@ -16,7 +16,7 @@ var flash = require('connect-flash');
 var indexRoutes = require('./routes/index');
 var gameRoutes = require('./routes/game-routes');
 var myAccountRoutes = require('./routes/myaccount');
-var questionsRoutes = require('./routes/questions');
+var learningRoutes = require('./routes/learning');
 
 var app = express();
 
@@ -74,7 +74,7 @@ app.use(function(req, res, next) {
 //set router
 app.use('/', indexRoutes);
 app.use('/', myAccountRoutes);
-app.use('/', questionsRoutes);
+app.use('/', learningRoutes);
 app.use('/', gameRoutes);
 
 // catch 404 and forward to error handler

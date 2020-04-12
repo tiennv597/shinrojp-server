@@ -2,9 +2,9 @@ var express = require('express');
 var router = express.Router();
 var questionsCtrl = require("../controllers/questions")();
 
-router.get('/questions/add', function(req, res, next) {
+router.get('/learning/questions', function(req, res, next) {
 
-	res.render('questions/add.ejs', {title:"Add Questions"});
+	res.render('learning/questions.ejs', {title:"Add Questions"});
 		
 });
 router.post('/questions/add', function(req, res, next) {

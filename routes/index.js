@@ -140,7 +140,7 @@ router.post('/register', function(req, res, next) {
 	if(registerEnabled){
 		var baseURL= req.protocol + '://' + req.get('host');
 		var params={ bodyPost: req.body, baseURL: baseURL};
-	
+		console.log(req.body);
 		indexCtrl.registerUser(params, function(pto){
 			res.send(pto);
 		});

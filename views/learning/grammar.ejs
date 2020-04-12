@@ -1,0 +1,131 @@
+<% include ../header.ejs %>
+
+<script>
+	const userName = "<%= loggedUser.username %>" 
+	  $(document).ready(function(){
+
+    $('#provider').val(userName);
+ 
+  });
+</script>
+<div class="container">
+	<div class="row">
+	<br>
+		<div class="col-md-2">
+			<%  var menu = "add"; %>
+			
+			<% include menu.ejs %>
+		</div>
+	<button data-toggle="modal" data-target="#myModal" class="btn btn-primary m-b-15"
+		data-type="prompt">Add grammar</button>
+<!-- The Modal start -->
+<div class="modal dialog" id="myModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+
+			<!-- Modal Header -->
+			<div class="modal-header">
+				<h4 class="modal-title">Add grammar</h4>
+				<button type="button" class="close"
+					data-dismiss="modal">&times;</button>
+			</div>
+			<!-- Modal body -->
+			<div class="modal-body">
+				<div class="col-md-24">
+					<form role="form" action="/questions/add" method="POST">
+						<!-- Shoose type -->
+						<select class="form-control"  name="type">
+							<option name="goi" value="goi">語彙</option>
+							<option name="kanji" value="kanji">漢字</option>
+							<option name="bunpou" value="bunpou">文法</option>
+						</select>
+						<!-- Shoose level -->
+						<select class="form-control"  name="level">
+							<option name="n5" value="n5">N5</option>
+							<option name="n5" value="n4">N4</option>
+							<option name="n5" value="n3">N3</option>
+							<option name="n5" value="n2">N2</option>
+							<option name="n5" value="n1">N1</option>
+						</select>
+						<!-- Input content -->
+						<div class="form-group">
+							<label for="questionname" class="loginFormElement">Question</label>
+								<div class="form-group">
+								<input class="form-control"  name="content"
+									id="content" type="text">
+								</div>                                                                
+						</div>
+					   <!-- Input Answer 1 -->
+					   <div class="form-group">
+						<label for="productname" class="loginFormElement">Answer option1</label>
+							<div class="form-group">
+								<div class="input-group-prepend">
+									<span class="input-group"><input class="checkbox-tick" type="radio" value="1" name="result"></span>
+								</div>
+							<input class="form-control"  name="answerone" id="answerone" type="text">
+							</div>                                                                
+						</div>
+						<!-- Input Answer 2 -->
+					   <div class="form-group">
+						<label for="productname" class="loginFormElement">Answer option2</label>
+							<div class="form-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><input class="checkbox-tick" type="radio" value="2" name="result"></span>
+								</div>
+							<input class="form-control"  name="answertwo"
+								id="answertwo" type="text">
+							</div>                                                                
+						</div>
+						<!-- Input Answer 3 -->
+					   <div class="form-group">
+						<label for="productname" class="loginFormElement">Answer option3</label>
+							<div class="form-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><input class="checkbox-tick" type="radio" value="3" name="result"></span>
+								</div>
+							<input class="form-control"  name="answerthree"
+								id="answerthree" type="text">
+							</div>                                                                
+						</div>
+						<!-- Input Answer 4 -->
+					   <div class="form-group">
+						<label for="productname" class="loginFormElement">Answer option4</label>
+							<div class="form-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><input class="checkbox-tick" type="radio" value="4" name="result"></span>
+								</div>
+							<input class="form-control"  name="answerfour"
+								id="answerfour" type="text">
+							</div>                                                                
+						</div>
+						<!-- Comment -->
+						<div class="form-group">
+							<label class="loginformelement"
+								for="productdescription">Comment</label>
+							<input id="comment" name="comment"
+								class="form-control input-lg" placeholder="Large"
+								type="text">
+							<div class="container">
+							</div>
+						<!-- provider -->
+						<input id="provider" name="provider"  type="hidden"type="text">
+						</div>
+						<!-- Modal footer -->
+						<div class="modal-footer">
+							<button type="submit" id="loginSubmit"
+								class="btn btn-success loginFormElement">Add
+								Product</button>
+							<button type="button" class="btn btn-danger"
+								data-dismiss="modal">Close</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- The Modal end -->
+	</div>
+</div>
+    
+<% include ../footer.ejs %>
