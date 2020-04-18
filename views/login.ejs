@@ -27,6 +27,7 @@
 				
 				<form action="/login" method="post">
 					<div class="top-margin">
+						<input name="login_device" id="login_device" type="hidden" value="web">
 						<label><%=texts.USERNAME_EMAIL%> <span class="text-danger">*</span></label>
 						<input type="text" name="login_username" id="login_username" class="form-control" value="<%=loginusername.pop();%>" required autofocus>
 					</div>

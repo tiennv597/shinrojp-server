@@ -32,14 +32,8 @@
 			<!-- Modal body -->
 			<div class="modal-body">
 				<div class="col-md-24">
-					<form role="form" action="/questions/add" method="POST">
-						<!-- Shoose type -->
-						<select class="form-control"  name="type">
-							<option name="goi" value="goi">語彙</option>
-							<option name="kanji" value="kanji">漢字</option>
-							<option name="bunpou" value="bunpou">文法</option>
-						</select>
-						<!-- Shoose level -->
+					<form role="form" action="/grammars/add" method="POST">
+						<!-- Choose level -->
 						<select class="form-control"  name="level">
 							<option name="n5" value="n5">N5</option>
 							<option name="n5" value="n4">N4</option>
@@ -49,60 +43,57 @@
 						</select>
 						<!-- Input content -->
 						<div class="form-group">
-							<label for="questionname" class="loginFormElement">Question</label>
+							<label for="content" class="loginFormElement">Content</label>
 								<div class="form-group">
 								<input class="form-control"  name="content"
 									id="content" type="text">
 								</div>                                                                
 						</div>
-					   <!-- Input Answer 1 -->
-					   <div class="form-group">
-						<label for="productname" class="loginFormElement">Answer option1</label>
-							<div class="form-group">
-								<div class="input-group-prepend">
-									<span class="input-group"><input class="checkbox-tick" type="radio" value="1" name="result"></span>
+						<!-- Input mean -->
+						<div class="form-group">
+							<label for="mean" class="loginFormElement">Mean</label>
+								<div class="form-group">
+								<input class="form-control"  name="mean"
+									id="mean" type="text">
+								</div>                                                                
 								</div>
-							<input class="form-control"  name="answerone" id="answerone" type="text">
+					   <!-- Input Use -->
+					   <div class="form-group">
+						<label for="use" class="loginFormElement">Use</label>
+							<div class="form-group">
+							<input class="form-control"  name="use" id="use" type="text">
 							</div>                                                                
 						</div>
-						<!-- Input Answer 2 -->
+						<!-- Input Note -->
 					   <div class="form-group">
-						<label for="productname" class="loginFormElement">Answer option2</label>
+						<label for="note" class="loginFormElement">Note</label>
 							<div class="form-group">
-								<div class="input-group-prepend">
-									<span class="input-group-text"><input class="checkbox-tick" type="radio" value="2" name="result"></span>
-								</div>
-							<input class="form-control"  name="answertwo"
-								id="answertwo" type="text">
+							<input class="form-control"  name="note"
+								id="note" type="text">
 							</div>                                                                
 						</div>
-						<!-- Input Answer 3 -->
+						<h4 class="modal-title">Example</h4>
+						<!-- Input Sentence -->
 					   <div class="form-group">
-						<label for="productname" class="loginFormElement">Answer option3</label>
+						<label for="productname" class="loginFormElement">Sentence</label>
 							<div class="form-group">
-								<div class="input-group-prepend">
-									<span class="input-group-text"><input class="checkbox-tick" type="radio" value="3" name="result"></span>
-								</div>
-							<input class="form-control"  name="answerthree"
-								id="answerthree" type="text">
+							<input class="form-control"  name="sentence"
+								id="sentence" type="text">
 							</div>                                                                
 						</div>
-						<!-- Input Answer 4 -->
+						<!-- Input Vietnamese -->
 					   <div class="form-group">
-						<label for="productname" class="loginFormElement">Answer option4</label>
+						<label for="vi" class="loginFormElement">Vietnamese</label>
 							<div class="form-group">
-								<div class="input-group-prepend">
-									<span class="input-group-text"><input class="checkbox-tick" type="radio" value="4" name="result"></span>
-								</div>
-							<input class="form-control"  name="answerfour"
-								id="answerfour" type="text">
+							<input class="form-control"  name="vi"
+								id="vi" type="text">
 							</div>                                                                
 						</div>
-						<!-- Comment -->
+						<!-- furigana -->
 						<div class="form-group">
 							<label class="loginformelement"
-								for="productdescription">Comment</label>
-							<input id="comment" name="comment"
+								for="furigana">Furigana</label>
+							<input id="furigana" name="furigana"
 								class="form-control input-lg" placeholder="Large"
 								type="text">
 							<div class="container">
@@ -114,7 +105,7 @@
 						<div class="modal-footer">
 							<button type="submit" id="loginSubmit"
 								class="btn btn-success loginFormElement">Add
-								Product</button>
+								Grammar</button>
 							<button type="button" class="btn btn-danger"
 								data-dismiss="modal">Close</button>
 						</div>

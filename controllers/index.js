@@ -10,14 +10,12 @@ var Emails = require("../lib/emails.js")(mailConf);
 
 function Home(){
 	
-	return {
-		
+	return {		
 		home: function(params, cb){
-
 			var pto = {
-				'viewOpts' : { title: "MVP" },
+				'viewOpts' : { title: "ShinroJP" },
 				'action' : 'renderHome'
-			}
+			}			
 			cb(pto);
 		},
 

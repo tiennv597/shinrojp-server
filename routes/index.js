@@ -13,10 +13,16 @@ var indexCtrl = require("../controllers/index.js")();
 
 
 router.get('/', function(req, res, next) {
+		indexCtrl.home({}, function(pto){
+			res.render('home', pto.viewOpts);
+		});
+});
+router.get('/mobile', function(req, res, next) {
+	var pto = {
+		'connect' : req.isAuthenticated()
+	}
 
-	indexCtrl.home({}, function(pto){
-		res.render('home', pto.viewOpts);
-	});
+	res.send(pto);
 
 });
 
@@ -82,11 +88,26 @@ router.get('/login', function(req, res, next) {
 router.post('/login',function(req, res, next) {
   
   if(localLoginEnabled){
-	  req.flash("loginusername",req.body.login_username || "");
+	var device= req.body.login_device;
+	  console.log(device=='web');	
 
-	  passport.authenticate('local', { successRedirect: '/',
-	                                   failureRedirect: '/login',
-	                                   failureFlash: true })(req, res, next);
+	  	if(device=='web'){
+			req.flash("loginusername",req.body.login_username || "");
+
+			passport.authenticate('local', { successRedirect: '/',
+											 failureRedirect: '/login',
+											 failureFlash: true })(req, res, next);
+		}else{		
+			req.flash("loginusername",req.body.login_username || "");
+
+			passport.authenticate('local', { successRedirect: '/mobile',
+											 failureRedirect: '/login',
+											 failureFlash: true })(req, res, next);
+
+	}
+
+
+									   
   }else{
 		next();
   }
