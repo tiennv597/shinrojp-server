@@ -27,14 +27,20 @@ router.get('/learning/questions/api', function(req, res, next) {
 
 // page grammar
 router.get('/learning/grammar', function(req, res, next) {
-
-	res.render('learning/grammar.ejs', {title:"Grammar"});
-		
+	learnCtrl.getGrammar(req.body, function(grammars){
+		res.render('learning/grammar.ejs', {title:"Grammar",grammars:grammars});
+	});
 });
 router.post('/grammars/add', function(req, res, next) {
 	learnCtrl.addGrammar(req.body, function(pto){
 		res.send(pto);
 	});
 });
+router.get('/learning/grammar/api', function(req, res, next) {
+	learnCtrl.getGrammar(req.body, function(grammars){
+		res.send(grammars);
+	});
+});
+
                                      									
 module.exports = router;

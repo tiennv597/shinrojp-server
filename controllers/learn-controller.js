@@ -24,7 +24,7 @@ function Learn(){
 				cb(pto);
 			});
 		},
-
+// Grammar
 		addGrammar: function(params, cb){
 
 			var pto = {
@@ -42,7 +42,20 @@ function Learn(){
 				}
 				cb(pto);
 			});
+		},
+		getGrammar: function({},cb){		
+
+			grammarModel.getGrammar(function(err,udata){
+
+				if(err){
+					console.log("error get grammar");					
+				}else{
+					console.log(udata);					
+				}
+				cb(udata);
+			});
 		}
+
 	}
 
 }

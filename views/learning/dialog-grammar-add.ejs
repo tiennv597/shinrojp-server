@@ -1,0 +1,88 @@
+	<!-- The Modal start -->
+	<div class="modal dialog" id="myModal">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">Add grammar</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<!-- Modal body -->
+				<div class="modal-body">
+					<div class="col-md-24">
+						<form role="form" action="/grammars/add" method="POST">
+							<!-- Choose level -->
+							<select class="form-control" name="level">
+								<option name="n5" value="n5">N5</option>
+								<option name="n5" value="n4">N4</option>
+								<option name="n5" value="n3">N3</option>
+								<option name="n5" value="n2">N2</option>
+								<option name="n5" value="n1">N1</option>
+							</select>
+							<!-- Input content -->
+							<div class="form-group">
+								<label for="content" class="loginFormElement">Content</label>
+								<div class="form-group">
+									<input class="form-control" name="content" id="content" type="text">
+								</div>
+							</div>
+							<!-- Input mean -->
+							<div class="form-group">
+								<label for="mean" class="loginFormElement">Mean</label>
+								<div class="form-group">
+									<input class="form-control" name="mean" id="mean" type="text">
+								</div>
+							</div>
+							<!-- Input Use -->
+							<div class="form-group">
+								<label for="use" class="loginFormElement">Use</label>
+								<div class="form-group">
+									<input class="form-control" name="use" id="use" type="text">
+								</div>
+							</div>
+							<!-- Input Note -->
+							<div class="form-group">
+								<label for="note" class="loginFormElement">Note</label>
+								<div class="form-group">
+									<input class="form-control" name="note" id="note" type="text">
+								</div>
+							</div>
+							<h4 class="modal-title">Example</h4>
+							<!-- Input Sentence -->
+							<div class="form-group">
+								<label for="productname" class="loginFormElement">Sentence</label>
+								<div class="form-group">
+									<input class="form-control" name="sentence" id="sentence" type="text">
+								</div>
+							</div>
+							<!-- Input Vietnamese -->
+							<div class="form-group">
+								<label for="vi" class="loginFormElement">Vietnamese</label>
+								<div class="form-group">
+									<input class="form-control" name="vi" id="vi" type="text">
+								</div>
+							</div>
+							<!-- furigana -->
+							<div class="form-group">
+								<label class="loginformelement" for="furigana">Furigana</label>
+								<input id="furigana" name="furigana" class="form-control input-lg" placeholder="Large"
+									type="text">
+								<div class="container">
+								</div>
+								<!-- provider -->
+								<input id="provider" name="provider" type="hidden" type="text">
+							</div>
+							<!-- Modal footer -->
+							<div class="modal-footer">
+								<button type="submit" id="loginSubmit" class="btn btn-success loginFormElement">Add
+									Grammar</button>
+								<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- The Modal end -->

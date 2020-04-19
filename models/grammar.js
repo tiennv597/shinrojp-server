@@ -9,10 +9,10 @@ function Grammar(){
 
 //add grammar to db
 		addGrammar : function (data, cb){
-			var compatibleID=uuid.v4();	
+			//var compatibleID=uuid.v4();	
 			var grammar={
 					provider:data.provider,
-					id:compatibleID,
+					//id:compatibleID,
   					level: data.level,
 					content: data.content,
 					mean:data.mean,
@@ -28,6 +28,13 @@ function Grammar(){
 			};
 			//insert to colection grammars
 			db.grammars.insert(grammar,function(e, d){
+							cb(e,d);
+						});
+		},
+//get grammar
+		getGrammar : function (cb){
+			//get all grammars
+			db.grammars.find({},function(e, d){
 							cb(e,d);
 						});
 		},
