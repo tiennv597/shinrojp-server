@@ -15,8 +15,6 @@
             });
 			 alert("Hello! I am an alert box!!"+$(this).data("value"));
 		});
-
-
 	});
 </script>
 <div class="container">
@@ -38,8 +36,8 @@
 							<div class="body">
 								<button data-toggle="modal" data-target="#myModal" class="btn btn-primary m-b-15"
 									data-type="prompt">Add grammar</button>
-								<div class="table-responsive">
-									<table class="table table-bordered table-hover table-striped" id="addrowExample">
+								<div class="table-responsive" style="padding-top: 8px;"> 
+									<table  class="table table-bordered table-hover table-striped" id="addrowExample">
 										<thead>
 											<tr>
 												<th>Position</th>
@@ -50,7 +48,7 @@
 												<th>Example</th>
 											</tr>
 										</thead>
-										<tbody>
+										<tbody>											
 											<% grammars.forEach(function(grammar,index) { %>												
 											<tr class="gradeA">
 												<td><%= index + 1 %></td>
@@ -67,17 +65,17 @@
 														data-toggle="tooltip" data-original-title="Discard" hidden><i
 														class="fa fa-times-circle" aria-hidden="true"></i></button>
 												</td>
-												<td>
+												<td>												
 													<button
 														data-target="#dialog-g-<%= grammar._id %>"
 														class="btn btn-success"
-														data-toggle="modal" data-type="prompt">View Detail</button>
+														data-toggle="modal" data-type="prompt" >View Detail</button>													
 												</td>
 											</tr>
 													<% include ../learning/dialog-grammar-detail.ejs%>												
 											<% }); %>
 
-
+											<% include ../learning/dialog-grammar-example.ejs%>
 										</tbody>
 										<tfoot>
 											<tr>

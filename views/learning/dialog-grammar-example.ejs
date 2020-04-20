@@ -1,0 +1,55 @@
+<!-- The Modal start -->
+<div class="modal dialog " tabindex="0" aria-hidden="true" id="dialog-g-example">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<!-- Modal Header -->
+			<div class="modal-header">
+				<h4 style="float: left;" class="modal-title">Add grammar</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div style="clear:both;"></div>
+			<!-- Modal body -->
+			<div class="modal-body">
+				<div class="col-md-24">
+					<form role="form" action="/grammars/example/add" method="POST">
+							<!-- Input Sentence -->
+							<div class="form-group">
+								<label for="productname" class="loginFormElement">Sentence</label>
+								<div class="form-group">
+									<input class="form-control" name="sentence" id="sentence" type="text">
+								</div>
+							</div>
+							<!-- Input Vietnamese -->
+							<div class="form-group">
+								<label for="vi" class="loginFormElement">Vietnamese</label>
+								<div class="form-group">
+									<input class="form-control" name="vi" id="vi" type="text">
+								</div>
+							</div>
+							<!-- furigana -->
+							<div class="form-group">
+								<label class="loginformelement" for="furigana">Furigana</label>
+								<input id="furigana" name="furigana" class="form-control input-lg" placeholder="Large"
+									type="text">
+								<div class="container">
+								</div>
+								<!-- provider -->
+								<input id="provider" name="provider" type="hidden" type="text">
+							</div>
+						<!-- Modal footer -->
+						<div class="modal-footer">
+							<button type="submit" id="loginSubmit" class="btn btn-success loginFormElement">Add
+								Grammar</button>
+							<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- The Modal end -->
+
+
+
+
