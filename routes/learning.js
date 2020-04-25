@@ -38,6 +38,7 @@ router.get('/learning/questions/api', function (req, res, next) {
 router.get('/learning/grammar', function (req, res, next) {
 	learnCtrl.getGrammar(req.body, function (grammars) {
 		res.render('learning/grammar.ejs', { title: "Grammar", grammars: grammars });
+		console.log(grammars);
 	});
 });
 router.post('/grammars/add', function (req, res, next) {
@@ -72,15 +73,24 @@ router.post('/learning/grammar/example/add', function (req, res, next) {
 });
 //search grammar
 router.post('/learning/grammar/search', function (req, res, next) {
-	// learnCtrl.addExample(req.body, function (pto) {
-	// 	res.redirect(307, '/learning/grammar/detail');
-	// });
-	var detection= JapaneseRegex.detection(req.body.key_search);
-	if(detection){ //Japanese characters found
+
+	var detection = JapaneseRegex.detection(req.body.key_search);
+
+	if (detection) { //Japanese characters found
 		console.log("true");
+		learnCtrl.getGrammarByContent(req.body.key_search, function (grammar) {
+			grammar.forEach(element => {
+				console.log(element.content);
+			});
+		});
 	}
-	else{
+	else { //No Japanese characters
 		console.log("false");
+		learnCtrl.getGrammarByMean(req.body.key_search, function (grammar) {
+			grammar.forEach(element => {
+				console.log(element.content);
+			});
+		});
 	}
 
 });

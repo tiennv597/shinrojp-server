@@ -24,17 +24,61 @@ function Grammar() {
 				cb(e, d);
 			});
 		},
-		//get grammar
+		//get all grammars
 		getGrammar: function (cb) {
-			//get all grammars
-			db.grammars.find({}, function (e, d) {
+
+			db.grammars.aggregate([{
+				$lookup: {
+					from: "examples",
+					localField: "grammar_id",    // field in the orders collection
+					foreignField: "grammar_id",  // field in the items collection
+					as: "list_grammar"
+				},
+			},		
+			{ $sample: { size: 8 } }
+			], function (e, d) {
 				cb(e, d);
 			});
 		},
+		//get  grammars by id
 		getGrammarById: function (data) {
-			//get  grammars by id
-			 var grammar =db.grammars.find({grammar_id: data});
-			 return grammar;
+
+			var grammar = db.grammars.find({ grammar_id: data });
+			return grammar;
+		},
+		//get grammar by content
+		getGrammarByContent: function (data, cb) {
+
+			db.grammars.aggregate([{
+				$lookup: {
+					from: "examples",
+					localField: "grammar_id",    // field in the orders collection
+					foreignField: "grammar_id",  // field in the items collection
+					as: "list_grammar"
+				},
+			},
+			{ $match: { 'content': { '$regex': data, '$options': 'i' } } }
+
+			], function (e, d) {
+				cb(e, d);
+			});
+		},
+		//get grammar by mean
+		getGrammarByMean: function (data, cb) {
+
+			db.grammars.aggregate([{
+				$lookup: {
+					from: "examples",
+					localField: "grammar_id",    // field in the orders collection
+					foreignField: "grammar_id",  // field in the items collection
+					as: "list_grammar"
+				},
+			},
+			{ $match: { 'mean': { '$regex': data, '$options': 'i' } } }
+
+			], function (e, d) {
+				cb(e, d);
+			});
 		},
 		////add example to db
 		addExample: function (data, cb) {
@@ -46,7 +90,7 @@ function Grammar() {
 				vi: data.vi,                // Vietnamese
 				furigana: data.furigana 　  // furigana of Japanese
 				,
-			};			
+			};
 			//insert to colection examples
 			db.examples.insert(example, function (e, d) {
 				cb(e, d);
@@ -55,7 +99,7 @@ function Grammar() {
 		//get example with grammar_id
 		getExample: function (data) {
 			//get all grammars
-			var examples=db.examples.find({grammar_id : data});
+			var examples = db.examples.find({ grammar_id: data });
 			return examples;
 
 		}
