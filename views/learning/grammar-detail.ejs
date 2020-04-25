@@ -17,82 +17,79 @@
 		});
 	});
 </script>
-<div class="container">
-	<div class="row">
-		<br>
-		<!-- Modal Header -->
-		<div class="modal-header">
-			<h3 style="float: left;" class="modal-title">[Grammar <%= grammar.level %>] <%= grammar.content %> </h3>
-		</div>
-		<div style="clear:both;"></div>
-		<!-- Modal body -->
-		<div class="modal-body">
-			<div class="col-md-24">
-				<!-- Input mean -->
-				<div class="form-group">
-					<div class="form-group"><%= grammar.mean %></div>
-				</div>
-				<!-- Input Use -->
-				<div class="form-group">
-					<div class="form-group"><%= grammar.use %></div>
-				</div>
-				<!-- Input Note -->
-				<div class="form-group">
-					<div class="form-group"><%= grammar.note %></div>
-				</div>
-
-				<div style="clear:both;"></div>
-
-				<!-- Example table start -->
-
-				<div class="card">
-					<div>
-						<h4 style="float: left;" class="modal-title">Example</h4>
-						<button style="float: right;" data-toggle="modal" data-target="#dialog-g-example"
-							class="btn btn-success m-b-15" data-type="prompt">Add Example</button>
-					</div>
-					<% include ../learning/dialog-gr-example-add.ejs%>
-					<div style="clear:both;"></div>
-					<div class="body">
-						<div class="table-responsive">
-							<table class="table table-hover m-b-0 c_list">
-								<thead>
-									<tr>
-										<th>Position</th>
-										<th>Content</th>
-										<th>Action</th>
-									</tr>
-								</thead>
-								<tbody>
-									<% examples.forEach(function(example,index) { %>
-									<tr>
-										<td>
-											<span>1</span>
-										</td>
-										<td>
-											<span>　 <%= example.sentence %></span> <br>
-											<span>　 <%= example.furigana %></span> <br>
-											<span>→ <%= example.vi %></span>
-										</td>
-										<td>
-											<button type="button" class="btn btn-info" title="Edit"><i
-													class="fa fa-pencil"></i></button>
-											<button type="button" data-type="confirm"
-												class="btn btn-danger js-sweetalert" title="Delete"><i
-													class="fa fa-trash-o"></i></button>
-										</td>
-									</tr>
-									<% }); %>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-
-				<!-- Example table end -->
-			</div>
-		</div>
-
+<div class="container bg-light">
+	<!-- Modal Header -->
+	<div>
+		<h3 style="float: left;" class="modal-title">[Grammar <%= grammar.level %>] <%= grammar.content %> </h3>
 	</div>
+	<div style="clear:both;"></div>
+	<!-- Modal body -->
+	<div>
+		<div class="col-ms-10">
+			<!-- Input mean -->
+			<div class="form-group">
+				<div class="form-group"><%= grammar.mean %></div>
+			</div>
+			<!-- Input Use -->
+			<div class="form-group">
+				<div class="form-group"><%= grammar.use %></div>
+			</div>
+			<!-- Input Note -->
+			<div class="form-group">
+				<div class="form-group"><%= grammar.note %></div>
+			</div>
+
+			<div style="clear:both;"></div>
+
+			<!-- Example table start -->
+
+			<div class="col-ms-10">
+				<div>
+					<h4 style="float: left;" class="modal-title">Example</h4>
+					<button style="float: right;" data-toggle="modal" data-target="#dialog-g-example"
+						class="btn btn-success m-b-15" data-type="prompt">Add Example</button>
+				</div>
+				<% include ../learning/dialog-gr-example-add.ejs%>
+				<div style="clear:both;"></div>
+				<div class="body">
+					<div class="table-responsive">
+						<table class="table table-hover m-b-0 c_list">
+							<thead>
+								<tr>
+									<th>Position</th>
+									<th>Content</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% grammar.list_example.forEach(function(example,index) { %>
+								<tr>
+									<td style="width:5%;">
+										<span>1</span>
+									</td>
+									<td style="white-space:nowrap;width:90%;">
+										<span>　 <%= example.sentence %></span> <br>
+										<span>　 <%= example.furigana %></span> <br>
+										<span>→ <%= example.vi %></span>
+									</td>
+									<td style="width:10%;">
+										<button type="button" class="btn btn btn-secondary" title="Edit"><i
+												class="fa fa-pencil"></i></button>
+										<button type="button" data-type="confirm" class="btn btn-danger js-sweetalert"
+											title="Delete"><i class="fa fa-trash-o"></i></button>
+									</td>
+								</tr>
+								<% }); %>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+			<!-- Example table end -->
+		</div>
+	</div>
+
+
 </div>
 <% include ../footer.ejs %>

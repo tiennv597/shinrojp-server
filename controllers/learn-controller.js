@@ -57,11 +57,30 @@ function Learn() {
 			});
 		},
 		//get grammar by id
-		getGrammarById: function (data) {
+		getGrammarById: function (data, cb) {
 
-			var grammar = grammarModel.getGrammarById(data);
-
-			return grammar;
+			grammarModel.getGrammarById(data, function (err, udata) {
+				
+				if (err) {
+					console.log("error get grammar by id");
+				} else {
+					for (var i = 0; i < 1; i++) {
+						//console.log(udata[i]); // result: "My","name"
+						//if (udata[i] === 'name') {break;}
+						cb(udata[i]);
+					  }
+					// udata.forEach(function(elem){
+					// 	pto.level=elem.level;
+					// 	pto.content=elem.content;
+					// 	pto.mean=elem.mean;
+					// 	pto.use=elem.use;
+					// 	pto.note=elem.note;
+					// 	break;
+					// });
+				
+				}
+				
+			});
 		},
 		//get grammar by content
 		getGrammarByContent: function (data, cb) {

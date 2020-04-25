@@ -34,17 +34,48 @@ function Grammar() {
 					foreignField: "grammar_id",  // field in the items collection
 					as: "list_grammar"
 				},
-			},		
+			},
 			{ $sample: { size: 8 } }
 			], function (e, d) {
 				cb(e, d);
 			});
 		},
 		//get  grammars by id
-		getGrammarById: function (data) {
+		getGrammarById: function (data, cb) {
 
-			var grammar = db.grammars.find({ grammar_id: data });
-			return grammar;
+			db.grammars.aggregate([
+				{
+					$match: { 'grammar_id': { '$regex': data, '$options': 'i' } }
+				},
+				{
+					$lookup: {
+						from: "examples",
+						localField: "grammar_id",    // field in the orders collection
+						foreignField: "grammar_id",  // field in the items collection
+						as: "list_example"
+					}
+				},
+				{
+					$project: {
+						level: 1,
+						content: 1,
+						mean: 1,
+						use: 1,
+						note: 1,
+						list_example: {
+							sentence: 1,
+							vi: 1,
+							furigana: 1
+						},
+					}
+				},
+				// {
+				// 	$unwind: "$list_example"
+				// }
+
+			], function (e, d) {
+				cb(e, d);
+			});
 		},
 		//get grammar by content
 		getGrammarByContent: function (data, cb) {

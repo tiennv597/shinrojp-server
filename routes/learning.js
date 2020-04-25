@@ -38,7 +38,7 @@ router.get('/learning/questions/api', function (req, res, next) {
 router.get('/learning/grammar', function (req, res, next) {
 	learnCtrl.getGrammar(req.body, function (grammars) {
 		res.render('learning/grammar.ejs', { title: "Grammar", grammars: grammars });
-		console.log(grammars);
+		
 	});
 });
 router.post('/grammars/add', function (req, res, next) {
@@ -54,17 +54,12 @@ router.get('/learning/grammar/api', function (req, res, next) {
 //page detail
 
 router.post('/learning/grammar/detail', function (req, res, next) {
-
-	var examples = learnCtrl.getExample(req.body.grammar_id);
-
-
-	var grammar = learnCtrl.getGrammarById(req.body.grammar_id);
-
-	console.log("sdsdsdsdsdsd" + examples + grammar.grammar_id);
-	res.render('learning/grammar-detail.ejs', { title: "Detail", grammar: grammar, examples: examples });
-
+	learnCtrl.getGrammarById(req.body.grammar_id, function (grammar) {
+	res.render('learning/grammar-detail.ejs', { title: "Detail", grammar: grammar});
+	});
+	
 });
-
+//add example
 router.post('/learning/grammar/example/add', function (req, res, next) {
 	learnCtrl.addExample(req.body, function (pto) {
 		res.redirect(307, '/learning/grammar/detail');

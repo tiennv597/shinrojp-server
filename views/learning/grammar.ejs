@@ -18,9 +18,8 @@
 		});
 	});
 </script>
-<div class="container">
-	<div class="row">
-		<br>
+<div class="container" class="col-md-24">
+
 		<div class="col-md-2">
 			<%  var menu = "add"; %>
 
@@ -29,8 +28,6 @@
 		<!-- Main table start  -->
 		<div class="col-md-10">
 			<div class="container-fluid">
-				<div class="block-header">
-				</div>
 				<div class="row clearfix">
 					<div class="col-lg-12">
 						<div class="card">
@@ -55,7 +52,7 @@
 									</form>
 									<!-- End -->
 								</div>
-								<div class="table-responsive" style="padding-top: 8px;">
+								<div class="table-responsive col-md-12" >
 									<table class="table table-bordered table-hover table-striped" id="addrowExample">
 										<thead>
 											<tr>
@@ -76,10 +73,10 @@
 												<td><%= grammar.mean %></td>
 												<td class="actions">
 													<button
-														class="btn btn-sm btn-icon btn-pure btn-default on-editing m-r-5 button-save"
+														class="btn btn-icon  on-editingbutton-save"
 														hidden><i class="fa fa-pencil" aria-hidden="true"></i></button>
 													<button
-														class="btn btn-sm btn-icon btn-pure btn-default on-editing button-discard"
+														class="btn btn-icon   on-editing button-discard"
 														data-toggle="tooltip" data-original-title="Discard" hidden><i
 															class="fa fa-times-circle" aria-hidden="true"></i></button>
 												</td>
@@ -87,17 +84,7 @@
 													<form action="/learning/grammar/detail" method="POST"
 														target="_blank">
 														<input id="grammar_id" name="grammar_id" type="hidden"
-															value="<%= grammar.grammar_id %>" type="text">
-														<input id="level" name="level" type="hidden"
-															value="<%= grammar.level %>" type="text">
-														<input id="content" name="content" type="hidden"
-															value="<%= grammar.content %>" type="text">
-														<input id="mean" name="mean" type="hidden"
-															value="<%= grammar.mean %>" type="text">
-														<input id="use" name="use" type="hidden"
-															value="<%= grammar.use %>" type="text">
-														<input id="note" name="note" type="hidden"
-															value="<%= grammar.note %>" type="text">
+															value="<%= grammar.grammar_id %>" type="text">														
 														<button type="submit" class="btn btn-success">View
 															Detail</button>
 													</form>
@@ -126,7 +113,7 @@
 		</div>
 		<!-- End table  -->
 
-	</div>
+
 	<% include ../learning/dialog-grammar-add.ejs%>
 </div>
 
