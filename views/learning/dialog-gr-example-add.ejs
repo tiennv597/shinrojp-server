@@ -11,7 +11,7 @@
 			<!-- Modal body -->
 			<div class="modal-body">
 				<div class="col-md-24">
-					<form role="form" action="/grammars/example/add" method="POST">
+					<form role="form" action="/learning/grammar/example/add" method="POST">
 							<!-- Input Sentence -->
 							<div class="form-group">
 								<label for="productname" class="loginFormElement">Sentence</label>
@@ -34,7 +34,7 @@
 								<div class="container">
 								</div>
 								<!-- provider -->
-								<input id="provider" name="provider" type="hidden" type="text">
+								<input id="grammar_id" name="grammar_id" value="<%= grammar.grammar_id %>" type="hidden" type="text">
 							</div>
 						<!-- Modal footer -->
 						<div class="modal-footer">

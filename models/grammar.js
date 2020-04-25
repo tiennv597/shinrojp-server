@@ -31,6 +31,11 @@ function Grammar() {
 				cb(e, d);
 			});
 		},
+		getGrammarById: function (data) {
+			//get  grammars by id
+			 var grammar =db.grammars.find({grammar_id: data});
+			 return grammar;
+		},
 		////add example to db
 		addExample: function (data, cb) {
 			var compatibleID = uuid.v4();
@@ -41,18 +46,18 @@ function Grammar() {
 				vi: data.vi,                // Vietnamese
 				furigana: data.furigana 　  // furigana of Japanese
 				,
-			};
+			};			
 			//insert to colection examples
 			db.examples.insert(example, function (e, d) {
 				cb(e, d);
 			});
 		},
 		//get example with grammar_id
-		getExample: function (data,cb) {
+		getExample: function (data) {
 			//get all grammars
-			db.examples.find({grammar_id : data}, function (e, d) {
-				cb(e, d);
-			});
+			var examples=db.examples.find({grammar_id : data});
+			return examples;
+
 		}
 
 	}
