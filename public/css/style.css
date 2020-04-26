@@ -1,5 +1,6 @@
 html, body {
     height:100%;
+
 }
 
 h1 {
@@ -11,7 +12,7 @@ h1 {
 .page-body{
 	padding-top: 16px;
 	position: relative;
-    min-height:100%;
+  min-height:100%;
 }
 
 .footer1 {
@@ -117,6 +118,7 @@ select.clang {
   border-radius: 0;
   padding-left: 0;
 }
+
 
 /*
 *

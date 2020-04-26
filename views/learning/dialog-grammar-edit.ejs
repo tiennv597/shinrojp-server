@@ -1,0 +1,104 @@
+<!-- The Modal start -->
+<div class="modal dialog" id="dialog-gr-edit<%= index + 1 %>">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+
+			<!-- Modal Header -->
+			<div class="modal-header">
+				<h4 style="float: left;" class="modal-title">Add grammar</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div style="clear:both;"></div>
+			<!-- Modal body -->
+			<div class="modal-body">
+				<div class="col-md-24">
+					<form role="form" action="/learning/grammar/edit" method="POST">
+						<!-- Choose level -->
+						<select class="form-control" name="level">
+							<% switch (grammar.level) {
+								case 'n5': %>
+							<option selected name="n5" value="n5">N5</option>
+							<option name="n5" value="n4">N4</option>
+							<option name="n5" value="n3">N3</option>
+							<option name="n5" value="n2">N2</option>
+							<option name="n5" value="n1">N1</option>
+							<% break;
+								case 'n4' : %>
+							<option name="n5" value="n5">N5</option>
+							<option selected name="n5" value="n4">N4</option>
+							<option name="n5" value="n3">N3</option>
+							<option name="n5" value="n2">N2</option>
+							<option name="n5" value="n1">N1</option>
+							<% break;
+								case 'n3' : %>
+							<option name="n5" value="n5">N5</option>
+							<option name="n5" value="n4">N4</option>
+							<option selected name="n5" value="n3">N3</option>
+							<option name="n5" value="n2">N2</option>
+							<option name="n5" value="n1">N1</option>
+							<% break;
+								case 'n2' : %>
+							<option name="n5" value="n5">N5</option>
+							<option name="n5" value="n4">N4</option>
+							<option name="n5" value="n3">N3</option>
+							<option selected name="n5" value="n2">N2</option>
+							<option name="n5" value="n1">N1</option>
+							<% break;
+								case 'n1' : %>
+							<option name="n5" value="n5">N5</option>
+							<option name="n5" value="n4">N4</option>
+							<option name="n5" value="n3">N3</option>
+							<option name="n5" value="n2">N2</option>
+							<option selected name="n5" value="n1">N1</option>
+							<% break;
+								} %>
+						</select>
+						<!-- Input content -->
+						<div class="form-group">
+							<label for="content" class="loginFormElement">Content</label>
+							<div class="form-group">
+								<input value="<%= grammar.content %>" class="form-control" name="content" id="content"
+									type="text">
+							</div>
+						</div>
+						<!-- Input mean -->
+						<div class="form-group">
+							<label for="mean" class="loginFormElement">Mean</label>
+							<div class="form-group">
+								<input value="<%= grammar.mean %>" class="form-control" name="mean" id="mean"
+									type="text">
+							</div>
+						</div>
+						<!-- Input Use -->
+						<div class="form-group">
+							<label for="use" class="loginFormElement">Use</label>
+							<div class="form-group">
+								<input value="<%= grammar.use %>" class="form-control" name="use" id="use" type="text">
+							</div>
+						</div>
+						<!-- Input Note -->
+						<div class="form-group">
+							<label for="note" class="loginFormElement">Note</label>
+							<div class="form-group">
+								<input value="<%= grammar.note %>" class="form-control" name="note" id="note"
+									type="text">
+							</div>
+						</div>
+						<div class="form-group">
+							<!-- provider -->
+							<input value="<%= grammar.grammar_id %>" id="grammar_id" name="grammar_id" type="hidden"
+								type="text">
+						</div>
+						<!-- Modal footer -->
+						<div class="modal-footer">
+							<button type="submit" id="loginSubmit" class="btn btn-success loginFormElement">Update
+								Grammar</button>
+							<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- The Modal end -->

@@ -12,30 +12,31 @@
 			<div class="modal-body">
 				<div class="col-md-24">
 					<form role="form" action="/learning/grammar/example/add" method="POST">
-							<!-- Input Sentence -->
+						<!-- Input Sentence -->
+						<div class="form-group">
+							<label for="productname" class="loginFormElement">Sentence</label>
 							<div class="form-group">
-								<label for="productname" class="loginFormElement">Sentence</label>
-								<div class="form-group">
-									<input class="form-control" name="sentence" id="sentence" type="text">
-								</div>
+								<input class="form-control" name="sentence" id="sentence" type="text">
 							</div>
-							<!-- Input Vietnamese -->
+						</div>
+						<!-- Input Vietnamese -->
+						<div class="form-group">
+							<label for="vi" class="loginFormElement">Vietnamese</label>
 							<div class="form-group">
-								<label for="vi" class="loginFormElement">Vietnamese</label>
-								<div class="form-group">
-									<input class="form-control" name="vi" id="vi" type="text">
-								</div>
+								<input class="form-control" name="vi" id="vi" type="text">
 							</div>
-							<!-- furigana -->
-							<div class="form-group">
-								<label class="loginformelement" for="furigana">Furigana</label>
-								<input id="furigana" name="furigana" class="form-control input-lg" placeholder="Large"
-									type="text">
-								<div class="container">
-								</div>
-								<!-- provider -->
-								<input id="grammar_id" name="grammar_id" value="<%= grammar.grammar_id %>" type="hidden" type="text">
+						</div>
+						<!-- furigana -->
+						<div class="form-group">
+							<label class="loginformelement" for="furigana">Furigana</label>
+							<input id="furigana" name="furigana" class="form-control input-lg" placeholder="Large"
+								type="text">
+							<div class="container">
 							</div>
+							<!-- grammar id -->
+							<input id="grammar_id" name="grammar_id" value="<%= grammar.grammar_id %>" type="hidden"
+								type="text">
+						</div>
 						<!-- Modal footer -->
 						<div class="modal-footer">
 							<button type="submit" id="loginSubmit" class="btn btn-success loginFormElement">Add
@@ -49,7 +50,3 @@
 	</div>
 </div>
 <!-- The Modal end -->
-
-
-
-

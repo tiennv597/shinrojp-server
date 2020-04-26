@@ -1,4 +1,4 @@
- <!-- create by tiennv597-2020/04/25 -->
+<!-- create by tiennv597-2020/04/25 -->
 <% include ../header.ejs %>
 
 <script>
@@ -18,101 +18,87 @@
 		});
 	});
 </script>
-<div class="container" class="col-md-24">
+<div class="container" class="col-lg-12">
 
-		<div class="col-md-2">
-			<%  var menu = "add"; %>
+	<div class="col-lg-2">
+		<%  var menu = "add"; %>
 
-			<% include menu.ejs %>
-		</div>
-		<!-- Main table start  -->
-		<div class="col-md-10">
-			<div class="container-fluid">
-				<div class="row clearfix">
-					<div class="col-lg-12">
-						<div class="card">
-							<div class="body">
-								<div>
-									<button data-toggle="modal" data-target="#myModal" class="btn btn-primary m-b-15"
-										data-type="prompt">Add grammar</button>
-									<!-- Custom rounded search bars with input group -->
-									<form action="/learning/grammar/search" method="POST">
-										<div class="p-1 bg-light rounded rounded-pill shadow-sm m-b-15">
-											<div class="input-group">
-												<input name="key_search" type="search" placeholder="What're you searching for?"
-													aria-describedby="button-addon1"
-													class=" col-lg-10 form-control border-0 bg-light">
-												<div class="input-group-append">
-													<button id="button-addon1" type="submit"
-														class="btn btn-link text-primary"><i
-															class="fa fa-search"></i></button>
-												</div>
-											</div>
-										</div>								
-									</form>
-									<!-- End -->
-								</div>
-								<div class="table-responsive col-md-12" >
-									<table class="table table-bordered table-hover table-striped" id="addrowExample">
-										<thead>
-											<tr>
-												<th>Position</th>
-												<th>Level</th>
-												<th>Structure</th>
-												<th>Meaning</th>
-												<th>Actions</th>
-												<th>Example</th>
-											</tr>
-										</thead>
-										<tbody>
-											<% grammars.forEach(function(grammar,index) { %>
-											<tr class="gradeA">
-												<td><%= index + 1 %></td>
-												<th><%= grammar.level %></th>
-												<td><%= grammar.content %></td>
-												<td><%= grammar.mean %></td>
-												<td class="actions">
-													<button
-														class="btn btn-icon  on-editingbutton-save"
-														hidden><i class="fa fa-pencil" aria-hidden="true"></i></button>
-													<button
-														class="btn btn-icon   on-editing button-discard"
-														data-toggle="tooltip" data-original-title="Discard" hidden><i
-															class="fa fa-times-circle" aria-hidden="true"></i></button>
-												</td>
-												<td>
-													<form action="/learning/grammar/detail" method="POST"
-														target="_blank">
-														<input id="grammar_id" name="grammar_id" type="hidden"
-															value="<%= grammar.grammar_id %>" type="text">														
-														<button type="submit" class="btn btn-success">View
-															Detail</button>
-													</form>
-												</td>
-											</tr>
-											<% }); %>
-										</tbody>
-										<tfoot>
-											<tr>
-												<th>Position</th>
-												<th>Level</th>
-												<th>Structure</th>
-												<th>Meaning</th>
-												<th>Actions</th>
-												<th>Example</th>
-											</tr>
-										</tfoot>
-									</table>
-								</div>
-							</div>
+		<% include menu.ejs %>
+	</div>
+	<!-- Main table start  -->
+	<div class="col-lg-10 bg-light">
+		<div>
+			<button data-toggle="modal" data-target="#myModal" class="btn btn-primary m-b-15" data-type="prompt">Add
+				grammar</button>
+			<!-- Custom rounded search bars with input group -->
+			<form action="/learning/grammar/search" method="POST">
+				<div class="p-1 bg-light rounded rounded-pill shadow-sm m-b-15">
+					<div class="input-group">
+						<input name="key_search" type="search" placeholder="What're you searching for?"
+							aria-describedby="button-addon1" class=" col-lg-10 form-control border-0 bg-light">
+						<div class="input-group-append">
+							<button id="button-addon1" type="submit" class="btn btn-link text-primary"><i
+									class="fa fa-search"></i></button>
 						</div>
 					</div>
 				</div>
-
-			</div>
+			</form>
+			<!-- End -->
 		</div>
-		<!-- End table  -->
+		<div class="table-responsive col-md-12">
+			<table class="table table-bordered table-hover table-striped" id="addrowExample">
+				<thead>
+					<tr>
+						<th style="width: 5px;">STT</th>
+						<th>Level</th>
+						<th>Structure</th>
+						<th>Meaning</th>
+						<th>Actions</th>
+						<th>Example</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% grammars.forEach(function(grammar,index) { %>
+					<tr class="gradeA">
+						<td style="width: 5px;"><%= index + 1 %></td>
+						<th><%= grammar.level %></th>
+						<td><%= grammar.content %></td>
+						<td><%= grammar.mean %></td>
+						<td>
+							<button data-toggle="modal" data-target="#dialog-gr-edit<%= index + 1 %>" class="btn btn-default m-b-15"
+								data-type="prompt" class="btn btn-icon"><i class="fa fa-pencil"
+									aria-hidden="true"></i></button>
+							<button data-toggle="modal" data-target="#dialog-gr-delete<%= index + 1 %>" class="btn btn-default m-b-15"
+								data-type="prompt" class="btn btn-icon "><i class="fa fa-times-circle"
+									aria-hidden="true"></i></button>
+						</td>
+						<td>
+							<form action="/learning/grammar/detail" method="POST" target="_blank">
+								<input id="grammar_id" name="grammar_id" type="hidden" value="<%= grammar.grammar_id %>"
+									type="text">
+								<button type="submit" class="btn btn-success">View Detail</button>
+							</form>
+						</td>
+					</tr>
+					<% include ../learning/dialog-grammar-edit.ejs%>
+					<% include ../learning/dialog-grammar-delete.ejs%>
+					<% }); %>
+				</tbody>
+				<tfoot>
+					<tr>
+						<th style="width: 5px;">STT</th>
+						<th>Level</th>
+						<th>Structure</th>
+						<th>Meaning</th>
+						<th>Actions</th>
+						<th>Example</th>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
 
+	</div>
+	<!-- End table  -->
 
 	<% include ../learning/dialog-grammar-add.ejs%>
 </div>
