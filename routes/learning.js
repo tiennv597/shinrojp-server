@@ -88,9 +88,7 @@ router.post('/learning/grammar/example/add', function (req, res, next) { //add e
 });
 
 router.post('/learning/grammar/search', function (req, res, next) { //search grammar
-
 	var detection = JapaneseRegex.detection(req.body.key_search);
-
 	if (detection) { //Japanese characters found
 		learnCtrl.getGrammarByJapanese(req.body.key_search, function (grammars) {
 			res.render('learning/grammar.ejs', { title: "Grammar", grammars: grammars });
@@ -101,27 +99,21 @@ router.post('/learning/grammar/search', function (req, res, next) { //search gra
 			res.render('learning/grammar.ejs', { title: "Grammar", grammars: grammars });
 		});
 	}
-
 });
 
 router.post('/learning/example/search/api', function (req, res, next) {//search grammar
-
 	var detection = JapaneseRegex.detection(req.body.key_search);
-
 	if (detection) { //Japanese characters found
-		
 		learnCtrl.getExampleByJapanese(req.body.key_search, function (examples) {
-			console.log(req.body.key_search);
+			console.log(examples);
 			res.send(examples);;
 		});
 	}
 	else { //No Japanese characters
-
 		learnCtrl.getExampleByNoJapanese(req.body.key_search, function (examples) {
-			console.log(req.body.key_search);
+			console.log(examples);
 			res.send(examples);
 		});
 	}
-
 });
 module.exports = router;

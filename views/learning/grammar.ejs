@@ -31,7 +31,7 @@
 			<button data-toggle="modal" data-target="#myModal" class="btn btn-primary m-b-15" data-type="prompt">Add
 				grammar</button>
 			<!-- Custom rounded search bars with input group -->
-			<form action="/learning/grammar/search" method="POST">
+			<form action="/learning/example/search/api" method="POST">
 				<div class="p-1 bg-light rounded rounded-pill shadow-sm m-b-15">
 					<div class="input-group">
 						<input name="key_search" type="search" placeholder="What're you searching for?"
@@ -65,12 +65,12 @@
 						<td><%= grammar.content %></td>
 						<td><%= grammar.mean %></td>
 						<td>
-							<button data-toggle="modal" data-target="#dialog-gr-edit<%= index + 1 %>" class="btn btn-default m-b-15"
-								data-type="prompt" class="btn btn-icon"><i class="fa fa-pencil"
-									aria-hidden="true"></i></button>
-							<button data-toggle="modal" data-target="#dialog-gr-delete<%= index + 1 %>" class="btn btn-default m-b-15"
-								data-type="prompt" class="btn btn-icon "><i class="fa fa-times-circle"
-									aria-hidden="true"></i></button>
+							<button data-toggle="modal" data-target="#dialog-gr-edit<%= index + 1 %>"
+								class="btn btn-default m-b-15" data-type="prompt" class="btn btn-icon"><i
+									class="fa fa-pencil" aria-hidden="true"></i></button>
+							<button data-toggle="modal" data-target="#dialog-gr-delete<%= index + 1 %>"
+								class="btn btn-default m-b-15" data-type="prompt" class="btn btn-icon "><i
+									class="fa fa-times-circle" aria-hidden="true"></i></button>
 						</td>
 						<td>
 							<form action="/learning/grammar/detail" method="POST" target="_blank">

@@ -32,8 +32,8 @@ module.exports = {
 	localLoginEnabled: true,
 	registerEnabled: true,
 	registerConfirmation: true,
-	facebookLoginEnabled: false,
-	FACEBOOK_APP_ID : "",
-	FACEBOOK_APP_SECRET: "",
-	FACEBOOK_CALLBACK_DOMAIN: ""
+	facebookLoginEnabled: true,//setting login fb on
+	FACEBOOK_APP_ID : "200866470992544",
+	FACEBOOK_APP_SECRET: "3895b774eb8d19f85fd07db11e8de8b9",
+	FACEBOOK_CALLBACK_DOMAIN: "http://localhost:3000/auth/facebook/callback"
 };

@@ -1,3 +1,5 @@
+// node js sever create by tiennv 597
+// npm start
 var express = require('express');
 var session = require('express-session');
 var path = require('path');
@@ -21,11 +23,11 @@ var learningRoutes = require('./routes/learning');
 var app = express();
 
 
-app.use(function(req,res,next){
-    req.db = db;
-    next();
+app.use(function (req, res, next) {
+  req.db = db;
+  next();
 });
-module.exports.db=db;
+module.exports.db = db;
 
 userModel.initializePassport(passport);
 
@@ -34,7 +36,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+
 app.use(flash());
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -48,12 +50,12 @@ app.use(session({
 }));
 
 app.use(geolang({
-  siteLangs: ['en','vi']
+  siteLangs: ['en', 'vi']
 }));
 
 app.use(i18n({
   translationsPath: path.join(__dirname, 'i18n'),
-  siteLangs: ["en","vi"]
+  siteLangs: ["en", "vi"]
 }));
 
 app.use(passport.initialize());
@@ -63,10 +65,10 @@ app.use(passport.session());
 app.use(helmet());
 
 //default locals
-app.use(function(req, res, next) {
-  req.app.locals.registerEnabled=registerEnabled = require("./config.js").registerEnabled;
-  req.app.locals.facebookLoginEnabled=require("./config.js").facebookLoginEnabled;
-  req.app.locals.localLoginEnabled=require("./config.js").localLoginEnabled;
+app.use(function (req, res, next) {
+  req.app.locals.registerEnabled = registerEnabled = require("./config.js").registerEnabled;
+  req.app.locals.facebookLoginEnabled = require("./config.js").facebookLoginEnabled;
+  req.app.locals.localLoginEnabled = require("./config.js").localLoginEnabled;
   req.app.locals.loggedUser = req.user;
   next();
 });
@@ -78,7 +80,7 @@ app.use('/', learningRoutes);
 app.use('/', gameRoutes);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
@@ -89,7 +91,7 @@ var dev = process.env.NODE_ENV !== 'production';
 // development error handler
 // will print stacktrace
 if (dev) {
-  app.use(function(err, req, res, next) {
+  app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
       message: err.message,
@@ -99,7 +101,7 @@ if (dev) {
 }
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,

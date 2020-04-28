@@ -3,7 +3,7 @@ var router = express.Router();
 var gameController = require('../controllers/game-controller');
 var roomController = require('../controllers/room-controller');
 //get room index
-router.get('/game/api/rooms', function (req, res) { 
+router.get('/game/api/rooms', function (req, res) {
   res.render('game-room', { title: 'Express' });
 });
 // join room
