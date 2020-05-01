@@ -316,10 +316,11 @@ function Users() {
 				passport.use(new FacebookStrategy({
 					clientID: FACEBOOK_APP_ID,
 					clientSecret: FACEBOOK_APP_SECRET,
-					callbackURL: "http://" + FACEBOOK_CALLBACK_DOMAIN + "/auth/facebook/callback"
+					callbackURL: FACEBOOK_CALLBACK_DOMAIN
 				},
 					function (accessToken, refreshToken, profile, done) {
 						var errorMSG = 'An error ocurred with Facebook Connect. Please try again or create a local account.';
+						console.log(profile);
 						_this.facebookFindOrCreate(profile, function (err, user) {
 							if (err) { return done(null, false, { message: errorMSG }); }
 

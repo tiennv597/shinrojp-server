@@ -119,7 +119,7 @@ router.post('/login', function (req, res, next) {
 router.get('/auth/facebook', function (req, res, next) {
 
 	if (facebookLoginEnabled) {
-		passport.authenticate('facebook', { scope: ['read_stream', 'publish_actions'] })(req, res, next);
+		passport.authenticate('facebook', { scope: ['email'] })(req, res, next);
 	} else {
 		next();
 	}
