@@ -31,10 +31,10 @@
 			<button data-toggle="modal" data-target="#myModal" class="btn btn-primary m-b-15" data-type="prompt">Add
 				grammar</button>
 			<!-- Custom rounded search bars with input group -->
-			<form action="/learning/example/search/api" method="POST">
+			<form action="/learning/example/search/api" method="GET">
 				<div class="p-1 bg-light rounded rounded-pill shadow-sm m-b-15">
 					<div class="input-group">
-						<input name="key_search" type="search" placeholder="What're you searching for?"
+						<input name="key_search" id="key_search" type="text" placeholder="What're you searching for?"
 							aria-describedby="button-addon1" class=" col-lg-10 form-control border-0 bg-light">
 						<div class="input-group-append">
 							<button id="button-addon1" type="submit" class="btn btn-link text-primary"><i

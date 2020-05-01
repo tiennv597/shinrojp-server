@@ -7,6 +7,7 @@
 // 308 redirect: Permanent Redirect.
 
 var express = require('express');
+var paramParser = require("../lib/param-sanitizer.js");
 var router = express.Router();
 var learnCtrl = require("../controllers/learn-controller")();
 var JapaneseRegex = require("../common/JapaneseRegex")();
@@ -101,19 +102,25 @@ router.post('/learning/grammar/search', function (req, res, next) { //search gra
 	}
 });
 
-router.post('/learning/example/search/api', function (req, res, next) {//search grammar
-	var detection = JapaneseRegex.detection(req.body.key_search);
+router.get('/search', function (req, res, next) {//search example
+	// var baseURL = req.protocol + '://' + req.get('host');
+	// var params = { bodyPost: req.body, baseURL: baseURL };
+	console.log(req.query);
+	var key_search=req.query.key_search;
+	var detection = JapaneseRegex.detection(key_search);
 	if (detection) { //Japanese characters found
-		learnCtrl.getExampleByJapanese(req.body.key_search, function (examples) {
-			console.log(examples);
+		learnCtrl.getExampleByJapanese(key_search, function (examples) {
+			console.log(key_search);
 			res.send(examples);;
 		});
 	}
 	else { //No Japanese characters
-		learnCtrl.getExampleByNoJapanese(req.body.key_search, function (examples) {
-			console.log(examples);
+		learnCtrl.getExampleByNoJapanese(key_search, function (examples) {
+			console.log(key_search);
 			res.send(examples);
 		});
 	}
 });
+
+
 module.exports = router;

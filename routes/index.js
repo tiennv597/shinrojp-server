@@ -86,10 +86,11 @@ router.get('/login', function (req, res, next) {
 
 
 router.post('/login', function (req, res, next) {
+	console.log(req.body);
 
 	if (localLoginEnabled) {
 		var device = req.body.login_device;
-		console.log(device == 'web');
+		console.log(device === 'web');
 
 		if (device == 'web') {
 			req.flash("loginusername", req.body.login_username || "");
@@ -109,8 +110,6 @@ router.post('/login', function (req, res, next) {
 			})(req, res, next);
 
 		}
-
-
 
 	} else {
 		next();
@@ -266,11 +265,23 @@ router.all('*', function (req, res, next) {
 		req.path === '/reset-password' ||
 		req.path === '/activation' ||
 		req.path === '/legal' ||
+		req.path === '/search' ||//test
 		req.path === '/suscribe' ||
 		req.path === '/register') {
 		next();
 	} else ensureAuthenticated(req, res, next);
 });
+router.post('/test', function (req, res, next) {
 
+	// var baseURL = req.protocol + '://' + req.get('host');
+	// var params = {
+	// 	bodyPost: req.body,
+	// 	baseURL: baseURL,
+	// 	session: req.session
+	// };
+	console.log(req.body);
+
+
+});
 
 module.exports = router;

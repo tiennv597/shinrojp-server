@@ -168,7 +168,7 @@ function Learn() {
 			grammarModel.getExampleByNoJapanese(data, function (err, udata) {
 
 				if (err) {
-					console.log("error get example By No Japanese");
+					console.log("error get example By No Japanese"+data);
 				} else {
 					cb(udata);
 
