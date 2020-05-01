@@ -33,7 +33,7 @@ module.exports = {
 	registerEnabled: true,
 	registerConfirmation: true,
 	facebookLoginEnabled: true,//setting login fb on
-	FACEBOOK_APP_ID : "200866470992544",
-	FACEBOOK_APP_SECRET: "3895b774eb8d19f85fd07db11e8de8b9",
-	FACEBOOK_CALLBACK_DOMAIN: "http://localhost:3000/auth/facebook/callback"
+	FACEBOOK_APP_ID : "708127079995173",
+	FACEBOOK_APP_SECRET: "26823b83f190b9a18b6a19c88b9f249d",
+	FACEBOOK_CALLBACK_DOMAIN: "https://shinrojp-server.herokuapp.com/auth/facebook/callback"
 };
