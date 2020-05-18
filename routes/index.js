@@ -5,17 +5,20 @@ var registerEnabled = require("../config.js").registerEnabled;
 var registerConfirmation = require("../config.js").registerConfirmation;
 var localLoginEnabled = require("../config.js").localLoginEnabled;
 var facebookLoginEnabled = require("../config.js").facebookLoginEnabled;
-
 var passport = require('passport');
-
-
 var indexCtrl = require("../controllers/index.js")();
-
-
 router.get('/', function (req, res, next) {
-	indexCtrl.home({}, function (pto) {
-		res.render('home', pto.viewOpts);
-	});
+
+	console.log(req.query.device);
+	if (req.query.device == 'web' || req.query.device == null) {
+		indexCtrl.home({}, function (pto) {
+			res.render('home', pto.viewOpts);
+		});
+	}
+	else {
+		res.send(req.user);
+		
+	}
 });
 router.get('/mobile', function (req, res, next) {
 	var pto = {
@@ -72,48 +75,73 @@ router.get('/legal', function (req, res, next) {
 
 router.get('/login', function (req, res, next) {
 
+	// if (req.body.login_device === 'web') {
 	if (localLoginEnabled) {
-		indexCtrl.loginForm({}, function (pto) {
-			pto.viewOpts.loginError = req.flash("error");
-			pto.viewOpts.loginusername = req.flash("loginusername");
-			res.render('login', pto.viewOpts);
-		});
-	} else {
-		next();
-	}
+		if (req.body.login_device === 'web' || req.body.login_device == null) {
+			console.log('test web');
+			indexCtrl.loginForm({}, function (pto) {
+				pto.viewOpts.loginError = req.flash("error");
+				pto.viewOpts.loginusername = req.flash("loginusername");
+				res.render('login', pto.viewOpts);
+			});
 
-});
-
-
-router.post('/login', function (req, res, next) {
-	console.log(req.body);
-
-	if (localLoginEnabled) {
-		var device = req.body.login_device;
-		console.log(device === 'web');
-
-		if (device == 'web') {
-			req.flash("loginusername", req.body.login_username || "");
-
-			passport.authenticate('local', {
-				successRedirect: '/',
-				failureRedirect: '/login',
-				failureFlash: true
-			})(req, res, next);
 		} else {
-			req.flash("loginusername", req.body.login_username || "");
-
-			passport.authenticate('local', {
-				successRedirect: '/mobile',
-				failureRedirect: '/login',
-				failureFlash: true
-			})(req, res, next);
-
+			res.send(req.body);
 		}
 
 	} else {
 		next();
 	}
+	// } else {
+	// 	// if (localLoginEnabled) {
+	// 		console.log('test mobile');
+	// 			// pto.viewOpts.loginError = req.flash("error");
+	// 			// pto.viewOpts.loginusername = req.flash("loginusername");
+	// 			res.send("alooo");
+
+	// 	// } else {
+	// 	// 	next();
+	// 	// }
+	// }
+
+});
+
+router.post('/login', function (req, res, next) {
+
+	req.flash("loginusername", req.body.login_username || "");
+
+	passport.authenticate('local', {
+		successRedirect: '/?device=' + req.body.login_device,
+		failureRedirect: '/login',
+		failureFlash: true
+	})(req, res, next);
+
+	// if (localLoginEnabled) {
+	// 	var device = req.body.login_device;
+	// 	console.log(device === 'web');
+
+	// 	if (device == 'web') {
+	// 		req.flash("loginusername", req.body.login_username || "");
+
+	// 		passport.authenticate('local', {
+	// 			successRedirect: '/',
+	// 			failureRedirect: '/login',
+	// 			failureFlash: true
+	// 		})(req, res, next);
+	// 	} else {
+	// 		req.flash("loginusername", req.body.login_username || "");
+
+	// 		passport.authenticate('local', {
+	// 			successRedirect: '/',
+	// 			failureRedirect: '/login',
+	// 			failureFlash: true
+	// 		})(req, res, next);
+
+	// 	}
+
+	// } else {
+	// 	next();
+	// }
 });
 
 router.get('/auth/facebook', function (req, res, next) {
@@ -140,7 +168,6 @@ router.get('/auth/facebook/callback', function (req, res, next) {
 	}
 
 });
-
 
 router.get('/logout', function (req, res) {
 	req.logout();
@@ -247,8 +274,6 @@ router.post('/reset-password', function (req, res, next) {
 
 });
 
-
-
 function ensureAuthenticated(req, res, next) {
 	if (req.isAuthenticated()) { return next(); }
 	res.redirect('/')
@@ -270,18 +295,6 @@ router.all('*', function (req, res, next) {
 		req.path === '/register') {
 		next();
 	} else ensureAuthenticated(req, res, next);
-});
-router.post('/test', function (req, res, next) {
-
-	// var baseURL = req.protocol + '://' + req.get('host');
-	// var params = {
-	// 	bodyPost: req.body,
-	// 	baseURL: baseURL,
-	// 	session: req.session
-	// };
-	console.log(req.body);
-
-
 });
 
 module.exports = router;
