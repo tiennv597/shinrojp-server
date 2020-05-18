@@ -17,7 +17,7 @@ router.get('/', function (req, res, next) {
 	}
 	else {
 		res.send(req.user);
-		
+
 	}
 });
 router.get('/mobile', function (req, res, next) {
@@ -62,7 +62,6 @@ router.post('/suscribe', function (req, res, next) {
 	indexCtrl.suscribe(params, function (pto) {
 		res.send(pto.response);
 	});
-
 });
 
 router.get('/legal', function (req, res, next) {
@@ -75,73 +74,24 @@ router.get('/legal', function (req, res, next) {
 
 router.get('/login', function (req, res, next) {
 
-	// if (req.body.login_device === 'web') {
 	if (localLoginEnabled) {
-		if (req.body.login_device === 'web' || req.body.login_device == null) {
-			console.log('test web');
-			indexCtrl.loginForm({}, function (pto) {
-				pto.viewOpts.loginError = req.flash("error");
-				pto.viewOpts.loginusername = req.flash("loginusername");
-				res.render('login', pto.viewOpts);
-			});
-
-		} else {
-			res.send(req.body);
-		}
-
+		indexCtrl.loginForm({}, function (pto) {
+			pto.viewOpts.loginError = req.flash("error");
+			pto.viewOpts.loginusername = req.flash("loginusername");
+			res.render('login', pto.viewOpts);
+		});
 	} else {
 		next();
 	}
-	// } else {
-	// 	// if (localLoginEnabled) {
-	// 		console.log('test mobile');
-	// 			// pto.viewOpts.loginError = req.flash("error");
-	// 			// pto.viewOpts.loginusername = req.flash("loginusername");
-	// 			res.send("alooo");
-
-	// 	// } else {
-	// 	// 	next();
-	// 	// }
-	// }
-
 });
 
 router.post('/login', function (req, res, next) {
-
 	req.flash("loginusername", req.body.login_username || "");
-
 	passport.authenticate('local', {
 		successRedirect: '/?device=' + req.body.login_device,
 		failureRedirect: '/login',
 		failureFlash: true
 	})(req, res, next);
-
-	// if (localLoginEnabled) {
-	// 	var device = req.body.login_device;
-	// 	console.log(device === 'web');
-
-	// 	if (device == 'web') {
-	// 		req.flash("loginusername", req.body.login_username || "");
-
-	// 		passport.authenticate('local', {
-	// 			successRedirect: '/',
-	// 			failureRedirect: '/login',
-	// 			failureFlash: true
-	// 		})(req, res, next);
-	// 	} else {
-	// 		req.flash("loginusername", req.body.login_username || "");
-
-	// 		passport.authenticate('local', {
-	// 			successRedirect: '/',
-	// 			failureRedirect: '/login',
-	// 			failureFlash: true
-	// 		})(req, res, next);
-
-	// 	}
-
-	// } else {
-	// 	next();
-	// }
 });
 
 router.get('/auth/facebook', function (req, res, next) {
