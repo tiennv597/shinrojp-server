@@ -16,7 +16,7 @@ router.get('/', function (req, res, next) {
 		});
 	}
 	else {
-		res.send(req.user);
+		res.json(req.user);
 
 	}
 });
@@ -84,8 +84,9 @@ router.get('/login', function (req, res, next) {
 		next();
 	}
 });
-
+//login for web
 router.post('/login', function (req, res, next) {
+	console.log(req.body);
 	req.flash("loginusername", req.body.login_username || "");
 	passport.authenticate('local', {
 		successRedirect: '/?device=' + req.body.login_device,
@@ -93,6 +94,42 @@ router.post('/login', function (req, res, next) {
 		failureFlash: true
 	})(req, res, next);
 });
+//login api
+// login route
+router.post('/login-api', async function(req, res, next) { 
+	//const { username, password } = req.body;
+	//console.log(req.body);
+	indexCtrl.auth(req.body, function (pto) {
+		res.send(pto);
+	});
+	//if (username && password) {
+	  // we get the user with the name and save the resolved promise
+	//   var user = await getUser({ name });
+
+	// userModel.auth(username, password, function (err, user) {
+	// 	if (err) { return done(err); }
+	// 	if (!user) {
+	// 		return done(null, false, { message: 'Incorrect password/username.' });
+	// 	}
+	// 	return done(null, user);
+
+	// });
+
+	//
+// 	  if (!user) {
+// 		res.status(401).json({ msg: 'No such user found', user });
+// 	  }
+// 	 if (user.password === password) {
+// 		// from now on we’ll identify the user by the id and the id is
+//   // the only personalized value that goes into our token
+// 		var payload = { id: user.id };
+// 		var token = jwt.sign(payload, jwtOptions.secretOrKey);
+// 		res.json({ msg: 'ok', token: token });
+// 	  } else {
+// 		res.status(401).json({ msg: 'Password is incorrect' });
+// 	  }
+	//}
+  });
 
 router.get('/auth/facebook', function (req, res, next) {
 
@@ -234,6 +271,7 @@ function ensureAuthenticated(req, res, next) {
 router.all('*', function (req, res, next) {
 	if (req.path === '/' ||
 		req.path === '/login' ||
+		req.path === '/login-api' ||
 		req.path === '/contact' ||
 		req.path === '/about' ||
 		req.path === '/recover-account' ||

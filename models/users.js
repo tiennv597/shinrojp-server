@@ -39,13 +39,13 @@ function Users() {
 				activationHash: activationHash,
 				activationStart: new Date(),
 				recoverHash: '',
-				recoverStart: null,
+				recoverStart: '',
 				username: data.userEmail,
 				password: encPass,
 				displayName: data.userAlias,
 				name: { familyName: '', middleName: '', givenName: data.userAlias },
 				emails: [{ value: data.userEmail, type: 'home' }],
-				photos: [],
+				photos: [{ large: '', medium: '', thumbnail: '' }],
 				creationDate: new Date(),
 				gender: "n/a",
 				profileUrl: ""
@@ -306,7 +306,7 @@ function Users() {
 							return done(null, false, { message: 'Incorrect password/username.' });
 						}
 						return done(null, user);
-						
+
 					});
 				}
 			));

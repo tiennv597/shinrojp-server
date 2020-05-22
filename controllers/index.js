@@ -2,61 +2,68 @@ var validator = require('validator');
 var paramParser = require("../lib/param-sanitizer.js");
 var msgs = require("../lib/msgs.js");
 var userModel = require("../models/users.js")();
-
-var registerConfirmation=require("../config.js").registerConfirmation;
-var mailConf=require("../config.js").emailData;
+var passport = require('passport');
+var passportJWT = require('passport-jwt');
+var ExtractJwt = passportJWT.ExtractJwt;
+var JwtStrategy = passportJWT.Strategy;
+var jwtOptions = {};
+var jwt = require('jsonwebtoken');
+jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+jwtOptions.secretOrKey = 'wowwow';
+var registerConfirmation = require("../config.js").registerConfirmation;
+var mailConf = require("../config.js").emailData;
 var Emails = require("../lib/emails.js")(mailConf);
 
 
-function Home(){
-	
-	return {		
-		home: function(params, cb){
+function Home() {
+
+	return {
+		home: function (params, cb) {
 			var pto = {
-				'viewOpts' : { title: "ShinroJP" },
-				'action' : 'renderHome'
-			}			
+				'viewOpts': { title: "ShinroJP" },
+				'action': 'renderHome'
+			}
 			cb(pto);
 		},
 
-		activation: function(params, cb){
+		activation: function (params, cb) {
 
 			var pto = {
-				'viewOpts' : { title: 'Account activation', msgs: [] }
+				'viewOpts': { title: 'Account activation', msgs: [] }
 			}
 
-			var username = paramParser.expect(params.bodyGet.user, "string","").trim();
-			var code = paramParser.expect(params.bodyGet.acode, "string","").trim();
+			var username = paramParser.expect(params.bodyGet.user, "string", "").trim();
+			var code = paramParser.expect(params.bodyGet.acode, "string", "").trim();
 
-			userModel.checkActivationCode(username, code, function(err,udata){
+			userModel.checkActivationCode(username, code, function (err, udata) {
 
-				if(err){
-					switch(err){
+				if (err) {
+					switch (err) {
 						case 'ERROR_ALREADY_ACTIVATED':
-							var errorText="Your activation link is expired. Try recovering your password.";
-						break;
+							var errorText = "Your activation link is expired. Try recovering your password.";
+							break;
 						case 'ERROR_EXPIRED':
 							//Send email again
-							userModel.genNewActivationHash(udata._id, udata.username, function(newAcivationHash){
+							userModel.genNewActivationHash(udata._id, udata.username, function (newAcivationHash) {
 
 								Emails.sendRegister(udata.emails[0].value, {
-									registerConfirmation: true, 
+									registerConfirmation: true,
 									name: udata.displayName,
 									activationHash: newAcivationHash,
 									baseURL: params.baseURL,
-									account: udata.username 
+									account: udata.username
 								});
 							});
 
-							var errorText="Your activation link is expired. Check your email to follow a new activation link.";
-						break;
+							var errorText = "Your activation link is expired. Check your email to follow a new activation link.";
+							break;
 						default:
-							var errorText="Invalid activation link.";
-						break;
+							var errorText = "Invalid activation link.";
+							break;
 					}
 					pto.viewOpts.msgs.push(msgs.error(errorText));
 
-				}else{
+				} else {
 					//updateDB
 					userModel.activateAccount(udata._id);
 					pto.viewOpts.msgs.push(msgs.ok("Activation successfull. Please login."));
@@ -64,247 +71,264 @@ function Home(){
 				cb(pto);
 			});
 		},
-		
-		resetPasswordForm: function(params, cb){
+
+		resetPasswordForm: function (params, cb) {
 
 			var pto = {
-				'viewOpts' : { title: 'Reset your password', showForm: false, msgs: [] }
+				'viewOpts': { title: 'Reset your password', showForm: false, msgs: [] }
 			}
 
-			var username = paramParser.expect(params.bodyGet.user, "string","").trim();
-			var code = paramParser.expect(params.bodyGet.rcode, "string","").trim();
+			var username = paramParser.expect(params.bodyGet.user, "string", "").trim();
+			var code = paramParser.expect(params.bodyGet.rcode, "string", "").trim();
 
-			userModel.checkRecoverCode(username, code, function(err,udata){
+			userModel.checkRecoverCode(username, code, function (err, udata) {
 
-				if(err){
-					switch(err){
+				if (err) {
+					switch (err) {
 						case 'ERROR_EXPIRED':
-							var errorText="Your link is expired. Start the recovery process again.";
-						break;
+							var errorText = "Your link is expired. Start the recovery process again.";
+							break;
 						default:
-							var errorText="Invalid recovery link.";
-						break;
+							var errorText = "Invalid recovery link.";
+							break;
 					}
 					pto.viewOpts.msgs.push(msgs.error(errorText));
-				}else{
+				} else {
 					params.session.resetPasswordApproved = true;
-					params.session.resetPasswordUser= udata;
-					pto.viewOpts.showForm=true;
+					params.session.resetPasswordUser = udata;
+					pto.viewOpts.showForm = true;
 				}
 				cb(pto);
 			});
 		},
-		
-		checkPasswordPolicy: function(pass){
-			
+
+		checkPasswordPolicy: function (pass) {
+
 			var retMsgs = [];
-			
-			if(pass.length < 8){
-					retMsgs.push(msgs.error("Your passwords must have more than 8 characters."));	
+
+			if (pass.length < 8) {
+				retMsgs.push(msgs.error("Your passwords must have more than 8 characters."));
 			}
-			
+
 			return retMsgs;
-			
+
 		},
-		
-		resetPassword: function(params, cb){
-			var _this=this;
-			
+
+		resetPassword: function (params, cb) {
+			var _this = this;
+
 			var pto = {
-				'viewOpts' : { title: 'Reset your password', msgs:[] }
+				'viewOpts': { title: 'Reset your password', msgs: [] }
 			}
-			
-			if("session" in params && "resetPasswordApproved" in params.session && params.session.resetPasswordApproved === true){
-				
+
+			if ("session" in params && "resetPasswordApproved" in params.session && params.session.resetPasswordApproved === true) {
+
 				var userData = params.session.resetPasswordUser;
-				var userPassword1 = paramParser.expect(params.bodyPost.userPassword1,"string","");
-				var userPassword2 = paramParser.expect(params.bodyPost.userPassword2,"string","");
-				
-				if(userPassword1 != userPassword2){
+				var userPassword1 = paramParser.expect(params.bodyPost.userPassword1, "string", "");
+				var userPassword2 = paramParser.expect(params.bodyPost.userPassword2, "string", "");
+
+				if (userPassword1 != userPassword2) {
 					pto.viewOpts.msgs.push(msgs.error("The passwords must be equals."));
-					pto.viewOpts.showForm=true;
+					pto.viewOpts.showForm = true;
 				}
-				var passchecks=_this.checkPasswordPolicy(userPassword1)
-				if(passchecks){
-					pto.viewOpts.msgs=pto.viewOpts.msgs.concat(passchecks);
-					pto.viewOpts.showForm=true;
+				var passchecks = _this.checkPasswordPolicy(userPassword1)
+				if (passchecks) {
+					pto.viewOpts.msgs = pto.viewOpts.msgs.concat(passchecks);
+					pto.viewOpts.showForm = true;
 				}
-				
-				if(userData.enable !== true){
+
+				if (userData.enable !== true) {
 					pto.viewOpts.msgs.push(msgs.error("Unauthorized attempt"));
-					pto.viewOpts.showForm=false;
+					pto.viewOpts.showForm = false;
 				}
-				
-				if(pto.viewOpts.msgs.length){
+
+				if (pto.viewOpts.msgs.length) {
 					return cb(pto);
-				}else{
-					
-					userModel.updatePassword(userData._id, userPassword1, function(err, pok){
-						
-						if(err){
-							pto.viewOpts.showForm=false;
+				} else {
+
+					userModel.updatePassword(userData._id, userPassword1, function (err, pok) {
+
+						if (err) {
+							pto.viewOpts.showForm = false;
 							pto.viewOpts.msgs.push(msgs.error("Error changing password."));
-						}else{
+						} else {
 							pto.viewOpts.msgs.push(msgs.ok("Your password was reset! Please login."));
-							params.session.resetPasswordApproved=false;
-							params.session.resetPasswordUser=null;
+							params.session.resetPasswordApproved = false;
+							params.session.resetPasswordUser = null;
 							userModel.resetRecoveryAccountStatus(userData._id);
-							pto.viewOpts.showForm=false;
+							pto.viewOpts.showForm = false;
 						}
 						return cb(pto);
-						
-					} );
-					
+
+					});
+
 				}
-				
-			}else{
-				pto.viewOpts.showForm=false;
+
+			} else {
+				pto.viewOpts.showForm = false;
 				pto.viewOpts.msgs.push(msgs.error("Unauthorized attempt"));
 				return cb(pto);
 			}
-			
+
 		},
-		
-		suscribe: function(params, cb){
-			
+
+		suscribe: function (params, cb) {
+
 			var pto = {
-				'response' : { status:"error", msg:"Unknown error." }
+				'response': { status: "error", msg: "Unknown error." }
 			}
-			
-			var email = paramParser.expect(params.bodyPost.email, "string","").trim();
-			
-			if(!validator.isEmail(email)) email="";
-			if(email){
-			
+
+			var email = paramParser.expect(params.bodyPost.email, "string", "").trim();
+
+			if (!validator.isEmail(email)) email = "";
+			if (email) {
+
 				userModel.suscribe(email, '', true);
-			    pto.response={status:"ok",msg:""};
-			    cb(pto);
-				
-			}else{
-				pto.response={status:"error",msg:"Enter a valid Email address."};
+				pto.response = { status: "ok", msg: "" };
+				cb(pto);
+
+			} else {
+				pto.response = { status: "error", msg: "Enter a valid Email address." };
 				cb(pto);
 			}
-			
+
 		},
-		
-		contact: function(params, cb){
-		
+		auth: function (params, cb) {
+			console.log(params.login_username);
+			userModel.auth(params.login_username, params.login_password, function (err, user) {
+				if (err) { return done(err); }
+				if (!user) {
+					return cb({ msg: 'No such user found', user });
+				}
+				// from now on we’ll identify the user by the id and the id is
+				// the only personalized value that goes into our token
+				var payload = { id: user.id };
+				var token = jwt.sign(payload, jwtOptions.secretOrKey);
+				return cb({ msg: 'ok', token: token,user});
+
+			});
+
+		},
+
+		contact: function (params, cb) {
+
 			var pto = {
-				'response' : { status:"error", msg:"Unknown error." }
+				'response': { status: "error", msg: "Unknown error." }
 			}
-			
-			var name = paramParser.expect(params.bodyPost.name, "string","").trim();
-			var email = paramParser.expect(params.bodyPost.email, "string","").trim();
-			var phone = paramParser.expect(params.bodyPost.phone, "string","").trim();
-			var msg = paramParser.expect(params.bodyPost.message, "string","").trim();
-			var suscribed = paramParser.expect(params.bodyPost.suscribed, "string","");
-			if(suscribed=="on"){
-				suscribed="Yes";
-			} else{
-				suscribed="No";
+
+			var name = paramParser.expect(params.bodyPost.name, "string", "").trim();
+			var email = paramParser.expect(params.bodyPost.email, "string", "").trim();
+			var phone = paramParser.expect(params.bodyPost.phone, "string", "").trim();
+			var msg = paramParser.expect(params.bodyPost.message, "string", "").trim();
+			var suscribed = paramParser.expect(params.bodyPost.suscribed, "string", "");
+			if (suscribed == "on") {
+				suscribed = "Yes";
+			} else {
+				suscribed = "No";
 			}
-			
-			if(!validator.isEmail(email)) email="";
-			if(email){
-			
+
+			if (!validator.isEmail(email)) email = "";
+			if (email) {
+
 				Emails.sendContactFromWeb(mailConf.contactEmail, {
-					email: email, 
+					email: email,
 					name: name,
 					phone: phone,
 					suscribed: suscribed,
 					msg: msg
 				});
-				
-				var nlStatus=suscribed=="Yes"?true:false;
-				userModel.suscribe(email, name, nlStatus);
-				
 
-			    pto.response={status:"ok",msg:""};
-			    cb(pto);
-				
-			}else{
-				pto.response={status:"error",msg:"Enter a valid Email address."};
+				var nlStatus = suscribed == "Yes" ? true : false;
+				userModel.suscribe(email, name, nlStatus);
+
+
+				pto.response = { status: "ok", msg: "" };
 				cb(pto);
-				
+
+			} else {
+				pto.response = { status: "error", msg: "Enter a valid Email address." };
+				cb(pto);
+
 			}
 
 		},
-		
-		registerUser: function(params, cb){
+
+		registerUser: function (params, cb) {
 
 			var pto = {
-				'msgs' :[],
-				'action' : 'OK'
+				'msgs': [],
+				'action': 'OK'
 			}
 
-			var userAlias = paramParser.expect(params.bodyPost.userAlias,"string","").trim();
-			var userEmail = paramParser.expect(params.bodyPost.userEmail,"string","").trim();
-			if(!validator.isEmail(userEmail)) userEmail="";
-			var userPassword1 = paramParser.expect(params.bodyPost.userPassword1,"string","");
-			var userPassword2 = paramParser.expect(params.bodyPost.userPassword2,"string","");
+			var userAlias = paramParser.expect(params.bodyPost.userAlias, "string", "").trim();
+			var userEmail = paramParser.expect(params.bodyPost.userEmail, "string", "").trim();
+			if (!validator.isEmail(userEmail)) userEmail = "";
+			var userPassword1 = paramParser.expect(params.bodyPost.userPassword1, "string", "");
+			var userPassword2 = paramParser.expect(params.bodyPost.userPassword2, "string", "");
 
-			if(!userAlias){
+			if (!userAlias) {
 				pto.msgs.push(msgs.error("Please chose an Alias."));
-				pto.action="FAIL";
+				pto.action = "FAIL";
 			}
-			if(userAlias.length < 3){
+			if (userAlias.length < 3) {
 				pto.msgs.push(msgs.error("Your Alias must have more than 3 characters."));
-				pto.action="FAIL";
+				pto.action = "FAIL";
 			}
-			if(!userEmail){
+			if (!userEmail) {
 				pto.msgs.push(msgs.error("Please enter a email address."));
-				pto.action="FAIL";
+				pto.action = "FAIL";
 			}
-			if(userPassword1 != userPassword2){
+			if (userPassword1 != userPassword2) {
 				pto.msgs.push(msgs.error("The passwords must be equals."));
-				pto.action="FAIL";
+				pto.action = "FAIL";
 
 			}
-			if(userPassword1.length < 8){
+			if (userPassword1.length < 8) {
 				pto.msgs.push(msgs.error("Your passwords must have more than 8 characters."));
-				pto.action="FAIL";
+				pto.action = "FAIL";
 			}
 
-			if(pto.action=="FAIL"){
+			if (pto.action == "FAIL") {
 				cb(pto);
 				return;
-			}else{
+			} else {
 
-				userModel.existLocal(userEmail, function(uData){
+				userModel.existLocal(userEmail, function (uData) {
 
-					if(uData){
-						pto.action="FAIL";
+					if (uData) {
+						pto.action = "FAIL";
 						pto.msgs.push(msgs.error("Please, choose another email address."));
 						cb(pto);
-					}else{
+					} else {
 
-						userModel.addLocal( {userAlias: userAlias,
-											 userEmail: userEmail,
-											 userPassword: userPassword1
-											}, function(err,uData){
-							if(err){
-								pto.action="FAIL";
+						userModel.addLocal({
+							userAlias: userAlias,
+							userEmail: userEmail,
+							userPassword: userPassword1
+						}, function (err, uData) {
+							if (err) {
+								pto.action = "FAIL";
 								pto.msgs.push(msgs.error("Unkwnon error in registration. Please contact the Adminsitrator."));
 								cb(pto);
-							}else{
+							} else {
 
 								Emails.sendRegister(userEmail, {
-									registerConfirmation: registerConfirmation, 
+									registerConfirmation: registerConfirmation,
 									name: userAlias,
 									activationHash: uData.activationHash,
 									baseURL: params.baseURL,
-									account: userEmail 
+									account: userEmail
 								});
-								
-								var okMSG="Account created successfully.";
-								if(registerConfirmation){
-									okMSG=okMSG+" Please check your email to activate your Account.";
-								}else{
-									okMSG=okMSG+" Please login.";
-								} 
+
+								var okMSG = "Account created successfully.";
+								if (registerConfirmation) {
+									okMSG = okMSG + " Please check your email to activate your Account.";
+								} else {
+									okMSG = okMSG + " Please login.";
+								}
 								pto.msgs.push(msgs.ok(okMSG));
 								cb(pto);
-							}	
+							}
 						});
 					}
 
@@ -312,118 +336,118 @@ function Home(){
 			}
 
 		},
-		
-		forgot: function(params, cb){
-		
+
+		forgot: function (params, cb) {
+
 			var pto = {
-				'viewOpts' : { title: 'Forgot your password?', msgs: [], noform: true}
+				'viewOpts': { title: 'Forgot your password?', msgs: [], noform: true }
 			}
 
 			pto.viewOpts.msgs.push(msgs.ok("A link with instructions to reset your password was sended to you email address. Check your email!"));
-			
-			var userEmail = paramParser.expect(params.bodyPost.email,"string","").trim();
-			if(!validator.isEmail(userEmail)) userEmail="";
-						
-			if(userEmail){
-				userModel.existLocal(userEmail, function(uData){
-					
-					if(uData){
-						if(uData.enable===true){
+
+			var userEmail = paramParser.expect(params.bodyPost.email, "string", "").trim();
+			if (!validator.isEmail(userEmail)) userEmail = "";
+
+			if (userEmail) {
+				userModel.existLocal(userEmail, function (uData) {
+
+					if (uData) {
+						if (uData.enable === true) {
 							//send Email
-							userModel.genRecovery(uData._id, userEmail, function(err, recoverHash){
-								
-								if(!err){
-									
+							userModel.genRecovery(uData._id, userEmail, function (err, recoverHash) {
+
+								if (!err) {
+
 									//send email
 									Emails.sendForgot(userEmail, {
 										name: uData.displayName,
 										recoverHash: recoverHash,
 										baseURL: params.baseURL,
-										account: uData.username 
+										account: uData.username
 									});
 									cb(pto);
-									
-								}else{
+
+								} else {
 									cb(pto);
-								}								
+								}
 							});
-							
-						}else{
+
+						} else {
 							//always say all its ok.
 							cb(pto);
-						}						
-					}else{
+						}
+					} else {
 						//always say all its ok.
 						cb(pto);
 					}
 				});
-			}else{
+			} else {
 				//always say all its ok.
 				cb(pto);
-			}			
+			}
 		},
 
-		forgotForm: function(params, cb){
-		
+		forgotForm: function (params, cb) {
+
 			var pto = {
-				'viewOpts' : { title: 'Forgot your password?' },
-				'action' : 'renderForgot'
+				'viewOpts': { title: 'Forgot your password?' },
+				'action': 'renderForgot'
 			}
 			cb(pto);
 
 		},
 
-		contactForm: function(params, cb){
-		
+		contactForm: function (params, cb) {
+
 			var pto = {
-				'viewOpts' : { title: 'Contact us' },
-				'action' : 'renderContact'
+				'viewOpts': { title: 'Contact us' },
+				'action': 'renderContact'
 			}
 			cb(pto);
 
 		},
 
-		about: function(params, cb){
-		
+		about: function (params, cb) {
+
 			var pto = {
-				'viewOpts' : { title: 'About us' },
-				'action' : 'renderAbout'
+				'viewOpts': { title: 'About us' },
+				'action': 'renderAbout'
 			}
 			cb(pto);
 
 		},
 
-		legal: function(params, cb){
-		
+		legal: function (params, cb) {
+
 			var pto = {
-				'viewOpts' : { title: 'Terms and Conditions' },
-				'action' : 'renderLegal'
+				'viewOpts': { title: 'Terms and Conditions' },
+				'action': 'renderLegal'
 			}
 			cb(pto);
 
 		},
 
-		loginForm: function(params, cb){
-		
+		loginForm: function (params, cb) {
+
 			var pto = {
-				'viewOpts' : { title: 'Sign in' }
+				'viewOpts': { title: 'Sign in' }
 			}
 			cb(pto);
 
 		},
 
-		registerForm: function(params, cb){
-		
+		registerForm: function (params, cb) {
+
 			var pto = {
-				'viewOpts' : { title: 'Registration' },
-				'action' : 'renderRegister'
+				'viewOpts': { title: 'Registration' },
+				'action': 'renderRegister'
 			}
 			cb(pto);
 
 		}
-		
+
 	}
-	
-} 
+
+}
 
 module.exports = Home;

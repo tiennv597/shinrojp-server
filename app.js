@@ -10,10 +10,20 @@ var bodyParser = require('body-parser');
 var db = require("./config.js").db;
 var i18n = require("i18n-express");
 var geolang = require("geolang-express");
-var passport = require('passport');
 var helmet = require('helmet');
 var userModel = require("./models/users.js")();
 var flash = require('connect-flash');
+
+//Passport.js and JSON Web Tokens
+var passport = require('passport');
+var passportJWT = require('passport-jwt');
+var ExtractJwt = passportJWT.ExtractJwt;
+var JwtStrategy = passportJWT.Strategy;
+var jwtOptions = {};
+var jwt = require('jsonwebtoken');
+jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+jwtOptions.secretOrKey = 'wowwow';
+
 //routes
 var indexRoutes = require('./routes/index');
 var gameRoutes = require('./routes/game-routes');
@@ -30,6 +40,7 @@ app.use(function (req, res, next) {
 module.exports.db = db;
 
 userModel.initializePassport(passport);
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -57,6 +68,19 @@ app.use(i18n({
   translationsPath: path.join(__dirname, 'i18n'),
   siteLangs: ["en", "vi"]
 }));
+
+// create our strategy for web token
+var strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
+  console.log('payload received', jwt_payload);
+  var user = getUser({ id: jwt_payload.id });
+  if (user) {
+    next(null, user);
+  } else {
+    next(null, false);
+  }
+});
+// use the strategy
+passport.use(strategy);
 
 app.use(passport.initialize());
 app.use(passport.session());
