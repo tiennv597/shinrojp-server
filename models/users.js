@@ -120,7 +120,7 @@ function Users() {
 		},
 
 		findById: function (id, cb) {
-			db.users.findOne({ _id: db.ObjectId(id) }, function (e, d) {
+			db.users.findOne({ id:id }, function (e, d) {
 
 				cb(e, d);
 

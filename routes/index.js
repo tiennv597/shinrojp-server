@@ -7,6 +7,7 @@ var localLoginEnabled = require("../config.js").localLoginEnabled;
 var facebookLoginEnabled = require("../config.js").facebookLoginEnabled;
 var passport = require('passport');
 var indexCtrl = require("../controllers/index.js")();
+require('../config/passport')(passport);
 router.get('/', function (req, res, next) {
 
 	console.log(req.query.device);
@@ -129,6 +130,15 @@ router.post('/login-api', async function(req, res, next) {
 // 		res.status(401).json({ msg: 'Password is incorrect' });
 // 	  }
 	//}
+  });
+  router.get('/book', passport.authenticate('jwt', { session: false}), function(req, res) {
+	var token = getToken(req.headers);
+	console.log(token);
+	if (token) {
+		res.json('books');
+	} else {
+	  return res.status(403).send({success: false, msg: 'Unauthorized.'});
+	}
   });
 
 router.get('/auth/facebook', function (req, res, next) {
@@ -284,5 +294,18 @@ router.all('*', function (req, res, next) {
 		next();
 	} else ensureAuthenticated(req, res, next);
 });
+
+getToken = function (headers) {
+	if (headers && headers.authorization) {
+	  var parted = headers.authorization.split(' ');
+	  if (parted.length === 2) {
+		return parted[1];
+	  } else {
+		return null;
+	  }
+	} else {
+	  return null;
+	}
+  };
 
 module.exports = router;

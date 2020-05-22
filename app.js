@@ -39,7 +39,7 @@ app.use(function (req, res, next) {
 });
 module.exports.db = db;
 
-userModel.initializePassport(passport);
+// userModel.initializePassport(passport);
 
 
 // view engine setup
@@ -69,18 +69,8 @@ app.use(i18n({
   siteLangs: ["en", "vi"]
 }));
 
-// create our strategy for web token
-var strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
-  console.log('payload received', jwt_payload);
-  var user = getUser({ id: jwt_payload.id });
-  if (user) {
-    next(null, user);
-  } else {
-    next(null, false);
-  }
-});
 // use the strategy
-passport.use(strategy);
+//passport.use(strategy);
 
 app.use(passport.initialize());
 app.use(passport.session());

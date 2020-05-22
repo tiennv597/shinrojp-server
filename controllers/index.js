@@ -13,6 +13,8 @@ jwtOptions.secretOrKey = 'wowwow';
 var registerConfirmation = require("../config.js").registerConfirmation;
 var mailConf = require("../config.js").emailData;
 var Emails = require("../lib/emails.js")(mailConf);
+require('../config/passport')(passport);
+
 
 
 function Home() {
@@ -204,9 +206,33 @@ function Home() {
 				// the only personalized value that goes into our token
 				var payload = { id: user.id };
 				var token = jwt.sign(payload, jwtOptions.secretOrKey);
-				return cb({ msg: 'ok', token: token,user});
+				return cb({success: true, token: 'JWT ' + token});
 
 			});
+
+			// userModel.findById({
+			// 	login_username: req.body.login_username
+			//   }, function(err, user) {
+			// 	if (err) throw err;
+			
+			// 	if (!user) {
+			// 	  res.status(401).send({success: false, msg: 'Authentication failed. User not found.'});
+			// 	} else {
+			// 	  // check if password matches
+			// 	  user.comparePassword(req.body.password, function (err, isMatch) {
+			// 		if (isMatch && !err) {
+			// 		  // if user is found and password is right create a token
+			// 		  var token = jwt.sign(user.toJSON(), config.secret, {
+			// 			expiresIn: 604800 // 1 week
+			// 		  });
+			// 		  // return the information including token as JSON
+			// 		  res.json({success: true, token: 'JWT ' + token});
+			// 		} else {
+			// 		  res.status(401).send({success: false, msg: 'Authentication failed. Wrong password.'});
+			// 		}
+			// 	  });
+			// 	}
+			//   });
 
 		},
 
