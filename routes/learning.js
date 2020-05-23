@@ -12,6 +12,8 @@ var router = express.Router();
 var learnCtrl = require("../controllers/learn-controller")();
 var JapaneseRegex = require("../common/JapaneseRegex")();
 
+var passport = require('passport');
+
 router.get('/learning/learning', function (req, res, next) {
 
 	res.render('learning/settings.ejs', { title: "Learn" });
@@ -64,11 +66,23 @@ router.post('/learning/grammar/delete', function (req, res, next) { //delete gra
 
 	});
 });
-router.get('/learning/grammar/api', function (req, res, next) {
+// router.get('/learning/grammar/api', function (req, res, next) {
 
-	learnCtrl.getGrammar(req.body, function (grammars) {
-		res.send(grammars);
-	});
+// 	learnCtrl.getGrammar(req.body, function (grammars) {
+// 		res.send(grammars);
+// 	});
+// });
+
+router.get('/learning/grammar/api', passport.authenticate('jwt', { session: false }), function (req, res) {
+	var token = getToken(req.headers);
+	console.log(token+"ffff");
+	if (token) {
+		learnCtrl.getGrammar(req.body, function (grammars) {
+			res.send(grammars);
+		});
+	} else {
+		return res.status(403).send({ success: false, msg: 'Unauthorized.' });
+	}
 });
 
 router.post('/learning/grammar/detail', function (req, res, next) { //page detail grammar
@@ -106,7 +120,7 @@ router.get('/search', function (req, res, next) {//search example
 	// var baseURL = req.protocol + '://' + req.get('host');
 	// var params = { bodyPost: req.body, baseURL: baseURL };
 	console.log(req.query);
-	var key_search=req.query.key_search;
+	var key_search = req.query.key_search;
 	var detection = JapaneseRegex.detection(key_search);
 	if (detection) { //Japanese characters found
 		learnCtrl.getExampleByJapanese(key_search, function (examples) {
@@ -121,6 +135,17 @@ router.get('/search', function (req, res, next) {//search example
 		});
 	}
 });
-
+getToken = function (headers) {
+	if (headers && headers.authorization) {
+	  var parted = headers.authorization.split(' ');
+	  if (parted.length === 2) {
+		return parted[1];
+	  } else {
+		return null;
+	  }
+	} else {
+	  return null;
+	}
+  };
 
 module.exports = router;

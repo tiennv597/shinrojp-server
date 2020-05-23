@@ -86,14 +86,22 @@ router.get('/login', function (req, res, next) {
 	}
 });
 //login for web
+// router.post('/login', function (req, res, next) {
+// 	console.log(req.body);
+// 	req.flash("loginusername", req.body.login_username || "");
+// 	passport.authenticate('local', {
+// 		successRedirect: '/?device=' + req.body.login_device,
+// 		failureRedirect: '/login',
+// 		failureFlash: true
+// 	})(req, res, next);
+// });
 router.post('/login', function (req, res, next) {
-	console.log(req.body);
-	req.flash("loginusername", req.body.login_username || "");
-	passport.authenticate('local', {
-		successRedirect: '/?device=' + req.body.login_device,
-		failureRedirect: '/login',
-		failureFlash: true
-	})(req, res, next);
+	indexCtrl.auth(req.body, function (pto) {
+		if(pto.success){
+			res.redirect('/');
+		}
+		
+	});
 });
 //login api
 // login route
@@ -103,33 +111,7 @@ router.post('/login-api', async function(req, res, next) {
 	indexCtrl.auth(req.body, function (pto) {
 		res.send(pto);
 	});
-	//if (username && password) {
-	  // we get the user with the name and save the resolved promise
-	//   var user = await getUser({ name });
 
-	// userModel.auth(username, password, function (err, user) {
-	// 	if (err) { return done(err); }
-	// 	if (!user) {
-	// 		return done(null, false, { message: 'Incorrect password/username.' });
-	// 	}
-	// 	return done(null, user);
-
-	// });
-
-	//
-// 	  if (!user) {
-// 		res.status(401).json({ msg: 'No such user found', user });
-// 	  }
-// 	 if (user.password === password) {
-// 		// from now on we’ll identify the user by the id and the id is
-//   // the only personalized value that goes into our token
-// 		var payload = { id: user.id };
-// 		var token = jwt.sign(payload, jwtOptions.secretOrKey);
-// 		res.json({ msg: 'ok', token: token });
-// 	  } else {
-// 		res.status(401).json({ msg: 'Password is incorrect' });
-// 	  }
-	//}
   });
   router.get('/book', passport.authenticate('jwt', { session: false}), function(req, res) {
 	var token = getToken(req.headers);
@@ -278,22 +260,22 @@ function ensureAuthenticated(req, res, next) {
 
 
 // Allow public routes
-router.all('*', function (req, res, next) {
-	if (req.path === '/' ||
-		req.path === '/login' ||
-		req.path === '/login-api' ||
-		req.path === '/contact' ||
-		req.path === '/about' ||
-		req.path === '/recover-account' ||
-		req.path === '/reset-password' ||
-		req.path === '/activation' ||
-		req.path === '/legal' ||
-		req.path === '/search' ||//test
-		req.path === '/suscribe' ||
-		req.path === '/register') {
-		next();
-	} else ensureAuthenticated(req, res, next);
-});
+// router.all('*', function (req, res, next) {
+// 	if (req.path === '/' ||
+// 		req.path === '/login' ||
+// 		req.path === '/login-api' ||
+// 		req.path === '/contact' ||
+// 		req.path === '/about' ||
+// 		req.path === '/recover-account' ||
+// 		req.path === '/reset-password' ||
+// 		req.path === '/activation' ||
+// 		req.path === '/legal' ||
+// 		req.path === '/search' ||//test
+// 		req.path === '/suscribe' ||
+// 		req.path === '/register') {
+// 		next();
+// 	} else ensureAuthenticated(req, res, next);
+// });
 
 getToken = function (headers) {
 	if (headers && headers.authorization) {

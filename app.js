@@ -39,7 +39,7 @@ app.use(function (req, res, next) {
 });
 module.exports.db = db;
 
-// userModel.initializePassport(passport);
+userModel.initializePassport(passport);
 
 
 // view engine setup

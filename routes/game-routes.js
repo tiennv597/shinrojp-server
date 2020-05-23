@@ -8,6 +8,7 @@ router.get('/game/api/rooms', function (req, res) {
 });
 // join room
 router.get('/game/api/rooms/:room', (req, res) => {
+  console.log(req.params.room);
   res.render('game-ingame', { roomName: req.params.room });
 });
 module.exports = router;
