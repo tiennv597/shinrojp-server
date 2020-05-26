@@ -1,4 +1,6 @@
-//create by tiennv597
+/**
+ * game controller 
+ */
 module.exports = function (io, socket, listRoom) {
 
   var nsp = io.of('/game-namespace');
@@ -8,8 +10,10 @@ module.exports = function (io, socket, listRoom) {
     console.log(room + message);
   });
 
-  socket.on('client-send-message', (room, displayName, message) => {
-    nsp.to(room).emit("server-send-message", displayName, message);
+  socket.on('client_send_message', (room, displayName, message) => {
+    var obj = { name: displayName, message: message };
+    var message = JSON.stringify(obj);
+    nsp.to(room).emit("server_send_message", message);
     console.log(room + displayName + message);
   });
 

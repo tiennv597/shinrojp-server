@@ -19,7 +19,7 @@ module.exports = function (app,io,socket,listRoom) {
     console.log(data);
     });
     //test
-    socket.on("hello",function(data){     
-      console.log(data);
+    socket.on("msg",function(data){     
+      console.log(data+"dd");
       });
 }

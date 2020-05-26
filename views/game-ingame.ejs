@@ -26,13 +26,13 @@
       const message = $("#message-input").val();
       //alert(message);
     //appendMessage(`You: ${message}`)
-      socket.emit('client-send-message', roomName,displayName, $("#message-input").val());
+      socket.emit('client_send_message', roomName,displayName, $("#message-input").val());
       $("#message-input").val("");
     });  
     //
-    socket.on("server-send-message", function(displayName,message){
+    socket.on("server_send_message", function(data){
       //$('#message-container').append(data.message);
-      $('#message-container').append("<p>"+displayName+": "+message+"</p>");
+      $('#message-container').append("<p>"+data.name+": "+data.message+"</p>");
     });
   });
   </script>
