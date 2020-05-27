@@ -32,7 +32,8 @@
     //
     socket.on("server_send_message", function(data){
       //$('#message-container').append(data.message);
-      $('#message-container').append("<p>"+data.name+": "+data.message+"</p>");
+      var obj = JSON.parse(data);
+      $('#message-container').append("<p>"+obj.name+": "+obj.message+"</p>");
     });
   });
   </script>
