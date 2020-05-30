@@ -47,50 +47,31 @@ function Questions() {
 				cb(e, d);
 			});
 		},
+		// get random questions by level and type
+		getRandomByLevelAndType: function (data, cb) {
 
-		// // get questions
-		// 		getQuestions : function (data, cb){
-		// 			var compatibleID=uuid.v4();	
-		// 			var questions={
-		// 					provider:data.provider,
-		// 					id:compatibleID,
-		// 					type : data.type,
-		//   					level: data.level,
-		//   					content: data.content,
-		// 					answers : [
-		// 						{answer: data.answerone,    result: false},
-		// 						{answer: data.answertwo,    result: false},
-		// 						{answer: data.answerthree,  result: false},
-		// 						{answer: data.answerfour,   result: false}
-		// 					 ],
-		//   					comment: data.comment
-		// 			};
-		// 			switch (data.result){
-		// 				case '1' : {
-		// 					questions.answers[0].result=true;
-		// 					  break;
-		// 				  }
-		// 				case '2' : {  
-		// 					questions.answers[1].result=true;
-		// 					  break;
-		// 				  }
-		// 				case '3' : {
-		// 					questions.answers[2].result=true;
-		// 					break;
-		// 				}
-		// 				case '4': {
-		// 					questions.answers[3].result=true;
-		// 					break;
-		// 				}
-		// 				  default : {
+			db.questions.aggregate([
+				{
+					$match: {// filters the documents by field
+						"$and": [
+							{
+								"level": { '$regex': data.level, '$options': 'i' },
+								"type": { '$regex': data.type, '$options': 'i' }
+							}
+						]
+					}
+				},
+				{
+					$project: {// field want query
+						content: 1,
+						answers: 1,
+					}
+				},
+			], function (e, d) {
+				cb(e, d);
+			});
+		},
 
-		// 				  }
-		// 			  }
-
-		// 			db.questions.insert(questions,function(e, d){
-		// 							cb(e,d);
-		// 						});
-		// 		}
 	}
 }
 

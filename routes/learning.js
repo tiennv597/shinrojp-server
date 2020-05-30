@@ -32,8 +32,10 @@ router.post('/questions/add', function (req, res, next) { // insert question
 	});
 });
 router.get('/learning/questions/api', function (req, res, next) {
-
-	res.render('learning/questions.ejs', { title: "Add Questions" });
+	console.log(req.query);
+	learnCtrl.getRandomByLevelAndType(req.query, function (pto) {
+		res.send(pto);
+	});
 
 });
 
@@ -75,7 +77,7 @@ router.post('/learning/grammar/delete', function (req, res, next) { //delete gra
 
 router.get('/learning/grammar/api', passport.authenticate('jwt', { session: false }), function (req, res) {
 	var token = getToken(req.headers);
-	console.log(token+"ffff");
+	console.log(token + "ffff");
 	if (token) {
 		learnCtrl.getGrammar(req.body, function (grammars) {
 			res.send(grammars);
@@ -137,15 +139,15 @@ router.get('/search', function (req, res, next) {//search example
 });
 getToken = function (headers) {
 	if (headers && headers.authorization) {
-	  var parted = headers.authorization.split(' ');
-	  if (parted.length === 2) {
-		return parted[1];
-	  } else {
-		return null;
-	  }
+		var parted = headers.authorization.split(' ');
+		if (parted.length === 2) {
+			return parted[1];
+		} else {
+			return null;
+		}
 	} else {
-	  return null;
+		return null;
 	}
-  };
+};
 
 module.exports = router;

@@ -117,6 +117,17 @@ function Learn() {
 				}
 			});
 		},
+		getRandomByLevelAndType: function (data, cb) { // get random questions by level and type
+
+			questionModel.getRandomByLevelAndType(data, function (err, udata) {
+
+				if (err) {
+					console.log("error get grammar by content");
+				} else {
+					cb(udata);
+				}
+			});
+		},
 
 		getGrammarByNoJapanese: function (data, cb) { //get grammar by mean
 
@@ -168,7 +179,7 @@ function Learn() {
 			grammarModel.getExampleByNoJapanese(data, function (err, udata) {
 
 				if (err) {
-					console.log("error get example By No Japanese"+data);
+					console.log("error get example By No Japanese" + data);
 				} else {
 					cb(udata);
 
