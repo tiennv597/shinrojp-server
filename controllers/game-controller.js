@@ -1,7 +1,8 @@
 /**
  * game controller 
  */
-var SOCKET_CONSTANT= require("../constant/socket_constant.js");
+var SOCKET_CONSTANT = require("../constant/socket_constant.js");
+var learnCtrl = require("../controllers/learn-controller")();
 module.exports = function (io, socket, listRoom) {
 
   var nsp = io.of('/game-namespace');
@@ -23,6 +24,17 @@ module.exports = function (io, socket, listRoom) {
     console.log(roomName);
     nsp.to(roomName).emit("joined-room", displayName);
     console.log(displayName);
+  });
+
+  socket.on(SOCKET_CONSTANT.start_game, (room, level, type) => {
+    var obj = { level: level, type: type };
+    // var message = JSON.stringify(obj);
+    
+    learnCtrl.getRandomByLevelAndType(obj, function (pto) {
+    nsp.to(room).emit(SOCKET_CONSTANT.start_game, pto);
+    });
+
+    console.log(room + level + type);
   });
 
 
