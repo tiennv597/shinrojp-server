@@ -28,6 +28,8 @@ module.exports = {
      client_send_message: 'client_send_message',
      server_send_message: 'server_send_message',
      start_game: 'start_game',
+     client_get_rooms: 'client_get_rooms',
+     server_send_rooms: 'server_send_rooms',
 
 
 };

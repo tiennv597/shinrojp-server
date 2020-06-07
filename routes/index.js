@@ -97,31 +97,44 @@ router.get('/login', function (req, res, next) {
 // });
 router.post('/login', function (req, res, next) {
 	indexCtrl.auth(req.body, function (pto) {
-		if(pto.success){
+		if (pto.success) {
 			res.redirect('/');
 		}
-		
+
 	});
 });
 //login api
 // login route
-router.post('/login-api', async function(req, res, next) { 
+router.post('/login-api', async function (req, res, next) {
 	//const { username, password } = req.body;
 	//console.log(req.body);
 	indexCtrl.auth(req.body, function (pto) {
 		res.send(pto);
 	});
 
-  });
-  router.get('/book', passport.authenticate('jwt', { session: false}), function(req, res) {
+});
+//get login api
+router.get('/login-api', passport.authenticate('jwt', { session: false }), function (req, res) {
 	var token = getToken(req.headers);
+	console.log(token);
+	if (token) {
+		var info = infoUser(req.user);
+		console.log(info);
+		res.json(info);
+	} else {
+		return res.status(403).send({ success: false, msg: 'Unauthorized.' });
+	}
+});
+router.get('/book', passport.authenticate('jwt', { session: false }), function (req, res) {
+	var token = getToken(req.headers);
+	console.log(req.headers);
 	console.log(token);
 	if (token) {
 		res.json('books');
 	} else {
-	  return res.status(403).send({success: false, msg: 'Unauthorized.'});
+		return res.status(403).send({ success: false, msg: 'Unauthorized.' });
 	}
-  });
+});
 
 router.get('/auth/facebook', function (req, res, next) {
 
@@ -279,15 +292,28 @@ function ensureAuthenticated(req, res, next) {
 
 getToken = function (headers) {
 	if (headers && headers.authorization) {
-	  var parted = headers.authorization.split(' ');
-	  if (parted.length === 2) {
-		return parted[1];
-	  } else {
-		return null;
-	  }
+		var parted = headers.authorization.split(' ');
+		if (parted.length === 2) {
+			return parted[1];
+		} else {
+			return null;
+		}
 	} else {
-	  return null;
+		return null;
 	}
-  };
-
+};
+infoUser = function (user) {
+	var info = {
+		"success":true,
+		"provider": user.provider,
+		"id": user.id,
+		"enable": user.enable,
+		"username": user.username,
+		"displayName": user.displayName,
+		"creationDate": user.creationDate,
+		"gender": user.gender,
+		"profileUrl": user.profileUrl
+	}
+	return info;
+};
 module.exports = router;

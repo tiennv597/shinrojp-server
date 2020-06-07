@@ -21,12 +21,12 @@ module.exports = {
 	db: db,
 	env: env,
 	sessionSecret: "changeme",
-	projectName: "MVP",
+	projectName: "JaLoMe",
 	emailData: {
 		templatesPath: path.join(__dirname, 'views/emails'),
 		from: "MVP <mvp@example.com>",
 		replyTo: "MVP <mvp@example.com>",
-		proyectName: "MVP",
+		proyectName: "JaLoMe",
 		contactEmail: "MVP <mvp@example.com>"
 	},
 	localLoginEnabled: true,

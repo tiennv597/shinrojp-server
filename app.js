@@ -70,7 +70,6 @@ app.use(i18n({
 }));
 
 // use the strategy
-//passport.use(strategy);
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -92,7 +91,7 @@ app.use('/', indexRoutes);
 app.use('/', myAccountRoutes);
 app.use('/', learningRoutes);
 app.use('/', gameRoutes);
-
+//
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   var err = new Error('Not Found');

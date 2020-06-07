@@ -36,6 +36,11 @@ module.exports = function (io, socket, listRoom) {
 
     console.log(room + level + type);
   });
+  socket.on(SOCKET_CONSTANT.client_get_rooms, () => {
+    //nsp.to(room).emit("server-send-scores", message);
+    console.log(socket.adapter.rooms);
+    //console.log(room + message);
+  });
 
 
 }
