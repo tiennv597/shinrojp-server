@@ -19,7 +19,7 @@ module.exports = function (io, socket, listRoom) {
     console.log(room + displayName + message);
   });
 
-  socket.on("join-room", function (roomName, displayName) {
+  socket.on(SOCKET_CONSTANT.join_room, function (roomName, displayName) {
     socket.join(roomName);
     console.log(roomName);
     nsp.to(roomName).emit("joined-room", displayName);
@@ -29,9 +29,9 @@ module.exports = function (io, socket, listRoom) {
   socket.on(SOCKET_CONSTANT.start_game, (room, level, type) => {
     var obj = { level: level, type: type };
     // var message = JSON.stringify(obj);
-    
+
     learnCtrl.getRandomByLevelAndType(obj, function (pto) {
-    nsp.to(room).emit(SOCKET_CONSTANT.start_game, pto);
+      nsp.to(room).emit(SOCKET_CONSTANT.start_game, pto);
     });
 
     console.log(room + level + type);

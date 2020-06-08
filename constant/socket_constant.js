@@ -1,10 +1,13 @@
 /**
  * socket constant value
  */
-//const var message = 'message';
+
 module.exports = {
      basURL: 'http://192.168.1.28:3000',
      nameSpase: '/game-namespace',
+     china_word_ns: '/china_word_ns',
+     vocabulary_ns: '/vocabulary_ns',
+     grammar_ns: '/grammar_ns',
      /**
       * /default evenst of socket io
       */
@@ -30,6 +33,8 @@ module.exports = {
      start_game: 'start_game',
      client_get_rooms: 'client_get_rooms',
      server_send_rooms: 'server_send_rooms',
+     join_room: 'join_room',
+     creat_room: 'creat_room',
 
 
 };

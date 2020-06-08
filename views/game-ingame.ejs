@@ -16,7 +16,7 @@
     var socket = io('/game-namespace');
   // tải hết html rồi mới tải script
   $(document).ready(function(){
-    socket.emit('join-room',roomName,displayName);
+    socket.emit('join_room',roomName,displayName);
     //user joined
     socket.on("joined-room",function(displayName){
       $('#message-container').append("<p>"+displayName+" joined"+"</p>");
