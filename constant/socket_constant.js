@@ -35,6 +35,9 @@ module.exports = {
      server_send_rooms: 'server_send_rooms',
      join_room: 'join_room',
      creat_room: 'creat_room',
+     server_send_room: 'server_send_room',
+     leave: 'leave',
+
 
 
 };

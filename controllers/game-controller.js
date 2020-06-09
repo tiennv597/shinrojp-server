@@ -42,5 +42,4 @@ module.exports = function (io, socket, listRoom) {
     //console.log(room + message);
   });
 
-
 }

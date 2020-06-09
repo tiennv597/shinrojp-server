@@ -32,7 +32,7 @@ module.exports = function (app, io) {
     china_word_ns.on(SOCKET_CONSTANT.connect, function (socket) {
         console.log('china word namespace');
         require('../controllers/game-controller')(io, socket);
-        require('../controllers/room-controller')(io, socket,SOCKET_CONSTANT.china_word_ns, listRoomCnWord);
+        require('../controllers/room-controller')(io, socket, SOCKET_CONSTANT.china_word_ns, listRoomCnWord);
     });
 
     //creat grammar namespace
@@ -48,7 +48,7 @@ module.exports = function (app, io) {
     vocabulary_ns.on(SOCKET_CONSTANT.connect, function (socket) {
         console.log('vocabulary namespace');
         require('../controllers/game-controller')(io, socket);
-        require('../controllers/room-controller')(io, socket,SOCKET_CONSTANT.vocabulary_ns, listRoomVocabulary);
+        require('../controllers/room-controller')(io, socket, SOCKET_CONSTANT.vocabulary_ns, listRoomVocabulary);
     });
 
 
