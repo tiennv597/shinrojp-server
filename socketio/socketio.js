@@ -1,7 +1,7 @@
 
 var SOCKET_CONSTANT = require("../constant/socket_constant.js");
 var listRoom = [];
-var listRoomCnWord = [];
+var listRoomCnWord = new WeakMap();
 var listRoomVocabulary = [];
 var listRoomGrammar = [];
 module.exports = function (app, io) {
@@ -31,7 +31,7 @@ module.exports = function (app, io) {
     var china_word_ns = io.of(SOCKET_CONSTANT.china_word_ns);
     china_word_ns.on(SOCKET_CONSTANT.connect, function (socket) {
         console.log('china word namespace');
-        require('../controllers/game-controller')(io, socket);
+        require('../controllers/game-controller')(io, socket,SOCKET_CONSTANT.china_word_ns);
         require('../controllers/room-controller')(io, socket, SOCKET_CONSTANT.china_word_ns, listRoomCnWord);
     });
 

@@ -16,18 +16,20 @@ module.exports = function (io, socket, namespace, listRoom) {
     // }
     // else {
     //    console.log(data);
+    let obj_room = { id_room };
     socket.join(id_room);
     //socket.gameRoom = data;
-    listRoom.push(id_room);
+    listRoom.set(obj_room, "result");
     socket.emit(SOCKET_CONSTANT.server_send_room, id_room.toString());
-    console.log(id_room.toString());
+    console.log(listRoom.get(obj_room));
     // }
   });
   socket.on(SOCKET_CONSTANT.leave, (id_room) => {
+    let obj_room = { id_room };
     //nsp.to(room).emit("server-send-scores", message);
     socket.leave(id_room);
-    listRoom.remove(id_room);
-    console.log(id_room);
+    listRoom.delete(obj_room);
+    console.log(listRoom.has(obj_room));
     //console.log(room + message);
   });
   socket.on("user-chat", function (data) {

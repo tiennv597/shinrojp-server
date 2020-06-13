@@ -9,10 +9,10 @@
   <script src="http://localhost:3000/socket.io/socket.io.js"></script>
   <link rel="stylesheet" type="text/css" href="layout-room.css">
   <script>
-    var socket = io('/game-namespace');
+    var socket = io('/china_word_ns');
   // tải hết html rồi mới tải script
   $(document).ready(function(){
-    socket.emit('creat-room',null);
+    socket.emit('creat_room');
     socket.on('server-send-rooms', function(data){
     $('#listRooms').html("");
       data.map(function(room){          
@@ -27,7 +27,7 @@
   if (nameRoom == null || nameRoom == "") {
       alert("Please enter a room name!");
   } else {
-    socket.emit('creat-room',nameRoom);
+    socket.emit('creat_room');
   }
   document.getElementById("demo").innerHTML = txt;
     });  

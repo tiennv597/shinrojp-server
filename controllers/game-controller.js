@@ -3,9 +3,9 @@
  */
 var SOCKET_CONSTANT = require("../constant/socket_constant.js");
 var learnCtrl = require("../controllers/learn-controller")();
-module.exports = function (io, socket, listRoom) {
+module.exports = function (io, socket, namespace) {
 
-  var nsp = io.of('/game-namespace');
+  var nsp = io.of(namespace);
 
   socket.on('client-send-scores', (room, message) => {
     nsp.to(room).emit("server-send-scores", message);

@@ -12,4 +12,8 @@ router.get('/game/api/rooms/:room', (req, res) => {
   console.log(req.params.room);
   res.render('game-ingame', { roomName: req.params.room });
 });
+router.get('/game/api/rooms/test', (req, res) => {
+  console.log(req.params.room);
+  res.render('game-ingame', { roomName: req.params.room });
+});
 module.exports = router;

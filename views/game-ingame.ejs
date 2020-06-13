@@ -9,14 +9,15 @@
   <script src="http://localhost:3000/socket.io/socket.io.js"></script>
   <link rel="stylesheet" type="text/html" href="layout-ingame.css">
   <script>
-    const roomName = "<%= roomName %>"    
-    const displayName ="tien"    
+    //const roomName = "<%= roomName %>"    
+    const displayName ="tien"   
+    const roomName ="8050"  
   </script>
   <script>
-    var socket = io('/game-namespace');
+    var socket = io('/china_word_ns');
   // tải hết html rồi mới tải script
   $(document).ready(function(){
-    socket.emit('join_room',roomName,displayName);
+    socket.emit('join_room',roomName,);
     //user joined
     socket.on("joined-room",function(displayName){
       $('#message-container').append("<p>"+displayName+" joined"+"</p>");
