@@ -16,21 +16,44 @@ module.exports = function (io, socket, namespace, listRoom) {
     // }
     // else {
     //    console.log(data);
-    let obj_room = { id_room };
+    //let obj_room = { id_room };
     socket.join(id_room);
     //socket.gameRoom = data;
-    listRoom.set(obj_room, "result");
+    listRoom.set(id_room, '');
     socket.emit(SOCKET_CONSTANT.server_send_room, id_room.toString());
-    console.log(listRoom.get(obj_room));
+    console.log(listRoom.get(id_room));
     // }
   });
+  socket.on(SOCKET_CONSTANT.join_room, function (id_room, password) {
+
+    // if (listRoom.get(obj_room) == '') {
+    //   socket.join(id_room);
+    //   socket.emit(SOCKET_CONSTANT.joined, true);
+
+    // } else {
+    //   if (listRoom.get(obj_room) == password) {
+    //     socket.join(id_room);
+    //     socket.emit(SOCKET_CONSTANT.joined, true);
+
+    //   } else {
+    //     socket.emit(SOCKET_CONSTANT.joined, false);
+    //   }
+
+    // }
+
+
+    socket.join(id_room);
+    console.log(socket);
+    // nsp.to(roomName).emit("joined-room", displayName);
+    // console.log(displayName);
+  });
+
   socket.on(SOCKET_CONSTANT.leave, (id_room) => {
     let obj_room = { id_room };
-    //nsp.to(room).emit("server-send-scores", message);
-    socket.leave(id_room);
-    listRoom.delete(obj_room);
+
+    //socket.leave(id_room);
+    //listRoom.delete(obj_room); 
     console.log(listRoom.has(obj_room));
-    //console.log(room + message);
   });
   socket.on("user-chat", function (data) {
     io.sockets.in(socket.gameRoom).emit("server-chat", data);

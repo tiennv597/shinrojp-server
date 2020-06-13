@@ -19,12 +19,12 @@ module.exports = function (io, socket, namespace) {
     console.log(room + displayName + message);
   });
 
-  socket.on(SOCKET_CONSTANT.join_room, function (roomName, displayName) {
-    socket.join(roomName);
-    console.log(roomName);
-    nsp.to(roomName).emit("joined-room", displayName);
-    console.log(displayName);
-  });
+  // socket.on(SOCKET_CONSTANT.join_room, function (roomName, displayName) {
+  //   socket.join(roomName);
+  //   console.log(roomName);
+  //   nsp.to(roomName).emit("joined-room", displayName);
+  //   console.log(displayName);
+  // });
 
   socket.on(SOCKET_CONSTANT.start_game, (room, level, type) => {
     var obj = { level: level, type: type };

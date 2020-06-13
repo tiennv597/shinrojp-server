@@ -1,9 +1,9 @@
 
 var SOCKET_CONSTANT = require("../constant/socket_constant.js");
 var listRoom = [];
-var listRoomCnWord = new WeakMap();
-var listRoomVocabulary = [];
-var listRoomGrammar = [];
+var listRoomCnWord = new Map();
+var listRoomVocabulary = new Map();
+var listRoomGrammar = new Map();
 module.exports = function (app, io) {
     //deful name space
     io.on(SOCKET_CONSTANT.connect, function (socket) {
@@ -11,10 +11,61 @@ module.exports = function (app, io) {
         console.log('ket noi toi ');
 
         socket.on(SOCKET_CONSTANT.client_get_rooms, function (data) {
-            socket.emit(SOCKET_CONSTANT.server_send_rooms, listRoom);
-            console.log(listRoomCnWord);
-            console.log(listRoom);
+            // switch (data) {
+            //     case 'cw':
+            //         let id_room_cw = Array.from(listRoomCnWord.keys());
+            //         socket.emit(SOCKET_CONSTANT.server_send_rooms, id_room_cw);
+            //         console.log(id_room_cw);
+            //         break;
+            //     case 'vc':
+            //         // code block
+            //         break;
+            //     case 'gr':
+            //         // code block
+            //         break;
+            //     default:
+            //     // code block
+            // }
+
+            let id_room_cw = Array.from(listRoomCnWord.keys());
+            let id_room_vc = Array.from(listRoomCnWord.keys());
+            let id_room_gr = Array.from(listRoomCnWord.keys());
+            // var rooms = {
+            //     id_room_cw: id_room_cw,
+            //     // id_room_vc: { id_room_vc },
+            //     // id_room_gr: { id_room_gr }
+            // }
+            var r = {
+                'id_room_cw': id_room_cw,
+                'id_room_vc': id_room_vc,
+                'id_room_gr': id_room_gr,
+
+            }
+            var rooms = JSON.stringify(r);
+
+            socket.emit(SOCKET_CONSTANT.server_send_rooms, rooms);
+
+            // console.log(rooms);
+            // //console.log(listRoom);
         });
+        //check info room
+        // socket.on(SOCKET_CONSTANT.check_info_room, function (id_room, password) {
+        //     let obj_room = { id_room };
+        //     if (listRoom.get(obj_room) == '') {
+        //         //socket.join(id_room);
+        //         socket.emit(SOCKET_CONSTANT.result_check_room, true);
+
+        //     } else {
+        //         if (listRoom.get(obj_room) == password) {
+        //             socket.join(id_room);
+        //             socket.emit(SOCKET_CONSTANT.result_check_room, true);
+
+        //         } else {
+        //             socket.emit(SOCKET_CONSTANT.result_check_room, false);
+        //         }
+
+        //     }
+        // });
 
     });
 
@@ -31,7 +82,7 @@ module.exports = function (app, io) {
     var china_word_ns = io.of(SOCKET_CONSTANT.china_word_ns);
     china_word_ns.on(SOCKET_CONSTANT.connect, function (socket) {
         console.log('china word namespace');
-        require('../controllers/game-controller')(io, socket,SOCKET_CONSTANT.china_word_ns);
+        require('../controllers/game-controller')(io, socket, SOCKET_CONSTANT.china_word_ns);
         require('../controllers/room-controller')(io, socket, SOCKET_CONSTANT.china_word_ns, listRoomCnWord);
     });
 
