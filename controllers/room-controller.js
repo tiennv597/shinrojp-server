@@ -53,6 +53,12 @@ module.exports = function (io, socket, namespace, listRoom) {
     io.sockets.in(socket.gameRoom).emit("server-chat", data);
     console.log(data);
   });
+  socket.on(SOCKET_CONSTANT.start_game, (id_room) => {
+    nsp.to(id_room).emit(SOCKET_CONSTANT.start_game);
+    console.log(data);
+  });
+
+
   //test
   socket.on("msg", function (data) {
     console.log(data + "dd");

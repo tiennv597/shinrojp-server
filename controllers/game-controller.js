@@ -26,20 +26,18 @@ module.exports = function (io, socket, namespace) {
   //   console.log(displayName);
   // });
 
-  socket.on(SOCKET_CONSTANT.start_game, (room, level, type) => {
+  socket.on(SOCKET_CONSTANT.get_quizzes, (room, level, type) => {
     var obj = { level: level, type: type };
-    // var message = JSON.stringify(obj);
-
     learnCtrl.getRandomByLevelAndType(obj, function (pto) {
-      nsp.to(room).emit(SOCKET_CONSTANT.start_game, pto);
+      nsp.to(room).emit(SOCKET_CONSTANT.send_quizzes, pto);
     });
 
     console.log(room + level + type);
   });
-  socket.on(SOCKET_CONSTANT.client_get_rooms, () => {
-    //nsp.to(room).emit("server-send-scores", message);
-    console.log(socket.adapter.rooms);
-    //console.log(room + message);
-  });
+  // socket.on(SOCKET_CONSTANT.client_get_rooms, () => {
+  //   //nsp.to(room).emit("server-send-scores", message);
+  //   console.log(socket.adapter.rooms);
+  //   //console.log(room + message);
+  // });
 
 }

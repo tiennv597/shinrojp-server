@@ -42,6 +42,8 @@ module.exports = {
      get_client_in_room: 'get_client_in_room',
      send_client_in_room: 'send_client_in_room',
      joined_room: 'joined_room',
+     get_quizzes: 'get_quizzes',
+     send_quizzes: 'send_quizzes',
 
 
      check_info_room: 'check_info_room',

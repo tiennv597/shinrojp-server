@@ -11,61 +11,18 @@ module.exports = function (app, io) {
         console.log('ket noi toi ');
 
         socket.on(SOCKET_CONSTANT.client_get_rooms, function (data) {
-            // switch (data) {
-            //     case 'cw':
-            //         let id_room_cw = Array.from(listRoomCnWord.keys());
-            //         socket.emit(SOCKET_CONSTANT.server_send_rooms, id_room_cw);
-            //         console.log(id_room_cw);
-            //         break;
-            //     case 'vc':
-            //         // code block
-            //         break;
-            //     case 'gr':
-            //         // code block
-            //         break;
-            //     default:
-            //     // code block
-            // }
-
             let id_room_cw = Array.from(listRoomCnWord.keys());
             let id_room_vc = Array.from(listRoomCnWord.keys());
             let id_room_gr = Array.from(listRoomCnWord.keys());
-            // var rooms = {
-            //     id_room_cw: id_room_cw,
-            //     // id_room_vc: { id_room_vc },
-            //     // id_room_gr: { id_room_gr }
-            // }
             var r = {
                 'id_room_cw': id_room_cw,
                 'id_room_vc': id_room_vc,
                 'id_room_gr': id_room_gr,
-
             }
             var rooms = JSON.stringify(r);
 
             socket.emit(SOCKET_CONSTANT.server_send_rooms, rooms);
-
-            // console.log(rooms);
-            // //console.log(listRoom);
         });
-        //check info room
-        // socket.on(SOCKET_CONSTANT.check_info_room, function (id_room, password) {
-        //     let obj_room = { id_room };
-        //     if (listRoom.get(obj_room) == '') {
-        //         //socket.join(id_room);
-        //         socket.emit(SOCKET_CONSTANT.result_check_room, true);
-
-        //     } else {
-        //         if (listRoom.get(obj_room) == password) {
-        //             socket.join(id_room);
-        //             socket.emit(SOCKET_CONSTANT.result_check_room, true);
-
-        //         } else {
-        //             socket.emit(SOCKET_CONSTANT.result_check_room, false);
-        //         }
-
-        //     }
-        // });
 
     });
 
