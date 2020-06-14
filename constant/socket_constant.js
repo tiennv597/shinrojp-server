@@ -37,7 +37,12 @@ module.exports = {
      creat_room: 'creat_room',
      server_send_room: 'server_send_room',
      leave: 'leave',
-     joined: 'joined',
+     joined_room: 'joined_room',
+     ready: 'ready',
+     get_client_in_room: 'get_client_in_room',
+     send_client_in_room: 'send_client_in_room',
+     joined_room: 'joined_room',
+
 
      check_info_room: 'check_info_room',
      result_check_room: 'result_check_room',
