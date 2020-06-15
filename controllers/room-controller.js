@@ -55,7 +55,6 @@ module.exports = function (io, socket, namespace, listRoom) {
   });
   socket.on(SOCKET_CONSTANT.start_game, (id_room) => {
     nsp.to(id_room).emit(SOCKET_CONSTANT.start_game);
-    console.log(data);
   });
 
 

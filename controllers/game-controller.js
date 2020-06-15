@@ -30,9 +30,10 @@ module.exports = function (io, socket, namespace) {
     var obj = { level: level, type: type };
     learnCtrl.getRandomByLevelAndType(obj, function (pto) {
       nsp.to(room).emit(SOCKET_CONSTANT.send_quizzes, pto);
+      console.log(pto);
     });
 
-    console.log(room + level + type);
+    
   });
   // socket.on(SOCKET_CONSTANT.client_get_rooms, () => {
   //   //nsp.to(room).emit("server-send-scores", message);
