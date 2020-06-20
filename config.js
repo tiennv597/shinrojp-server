@@ -11,7 +11,7 @@ if(env){
 
 }else{
 	//production
-	var db = mongojs('mongodb+srv://cluster0-ypshb.mongodb.net/shinro', ['users','suscriptions']);
+	var db = mongojs('mongo "mongodb+srv://cluster0-ypshb.mongodb.net/shinro" --username tiennv', ['users','suscriptions']);
 	db.users=db.collection('users');
 	db.suscriptions=db.collection('suscriptions');
 }
