@@ -11,7 +11,7 @@ if(env){
 
 }else{
 	//production
-	var db = mongojs('mongodb://127.0.0.1/shinrojp', ['users','suscriptions']);
+	var db = mongojs('mongodb+srv://cluster0-ypshb.mongodb.net/shinro', ['users','suscriptions']);
 	db.users=db.collection('users');
 	db.suscriptions=db.collection('suscriptions');
 }
