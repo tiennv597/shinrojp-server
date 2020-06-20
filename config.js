@@ -5,13 +5,13 @@ var env = process.env.NODE_ENV !== 'production';
 
 if(env){
     //dev
-	var db = mongojs('mongodb://127.0.0.1/shinrojp', ['users','suscriptions']);
+	var db = mongojs('mongodb+srv://tiennv:tienNv97%40%40@cluster0-ypshb.mongodb.net/cluster0?retryWrites=true&w=majority', ['users','suscriptions']);
 	db.users=db.collection('users');
 	db.suscriptions=db.collection('suscriptions');
 
 }else{
 	//production
-	var db = mongojs('mongodb+srv://tiennv:<tienNv97%40%40>@cluster0-ypshb.mongodb.net/shinro?retryWrites=true&w=majority', ['users','suscriptions']);
+	var db = mongojs('mongodb+srv://tiennv:tienNv97%40%40@cluster0-ypshb.mongodb.net/cluster0?retryWrites=true&w=majority', ['users','suscriptions']);
 	db.users=db.collection('users');
 	db.suscriptions=db.collection('suscriptions');
 }
